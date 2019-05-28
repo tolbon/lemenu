@@ -1,2 +1,21 @@
-{% import "macro_menu.html" as macro_menu %}
+{% extends "base.html.twig" %}
+
+{% import "macro_menu.html.twig" as macro_menu %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block body %}
+    Notre plateforme est un peu vide pour le moment, mais cela viendra !
+    <nav>
+        <ul>
+        {% for section in menu %}
+            <li><a href="#{{ section.name }}"> {{ section.name }} </a></li>
+        {% endfor %}
+        </ul>
+    </nav>
+    <div>
+    {{ macro_menu.section(menu, 2) }}
+    </div>
+{% endblock %}
+
 

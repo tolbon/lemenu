@@ -1,3 +1,13 @@
-{% macro section(name, value, sous_section) %}
-    <input type="{{ type }}" name="{{ name }}" value="{{ value|e }}" size="{{ size }}" />
+{% macro section(sectionList, hNumber) %}
+    <ul>
+    {% for sectionO in sectionList %}
+        <li>
+            <h{{ hNumber }} id="{{ sectionO.name }}">{{ sectionO.name }}</h{{ hNumber }}>
+            {% if sectionO.sectionList|length > 0 %}
+                {% import _self as self %}
+                {{ self.section(sectionO.sectionList, (hNumber + 1)) }}
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
 {% endmacro %}
