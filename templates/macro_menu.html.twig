@@ -1,12 +1,20 @@
-{% macro section(sectionList, hNumber) %}
+{% macro section(menuSection, hNumber) %}
+    {# @var menuSection \App\DTO\MenuSection[]|null #}
     <ul>
-    {% for sectionO in sectionList %}
+    {% for section in menuSection %}
+        {# @var section \App\DTO\MenuSection #}
         <li>
-            <h{{ hNumber }} id="{{ sectionO.name }}">{{ sectionO.name }}</h{{ hNumber }}>
-            {% if sectionO.sectionList|length > 0 %}
-                {% import _self as self %}
-                {{ self.section(sectionO.sectionList, (hNumber + 1)) }}
-            {% endif %}
+            <h{{ hNumber }} id="{{ section.name }}">{{ section.name }}</h{{ hNumber }}>
+            {% import _self as self %}
+            {{ self.section(section.hasMenuSection, (hNumber + 1)) }}
+            <ul>
+                {% for menuItem in section.hasMenuItem %}
+                    <li>
+                        <div>{{ menuItem.name }}</div>
+                        <div> {{ menuItem.description }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
         </li>
     {% endfor %}
     </ul>

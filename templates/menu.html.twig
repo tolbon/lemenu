@@ -1,21 +1,40 @@
 {% extends "base.html.twig" %}
 
-{% import "macro_menu.html.twig" as macro_menu %}
+{% import "macro_menu.html.twig" as macroHtmlMenu %}
+{% import "macroJsonMenu.json.twig" as macroJsonMenu %}
 
-{% block title %}{{ parent() }} - Index{% endblock %}
+{% block title %}{{ restaurant.name }} - {{ restaurant.hasMenu.name}}{% endblock %}
 
 {% block body %}
-    Notre plateforme est un peu vide pour le moment, mais cela viendra !
     <nav>
+        Sommaire
         <ul>
-        {% for section in menu %}
-            <li><a href="#{{ section.name }}"> {{ section.name }} </a></li>
+        {% for menuSection in restaurant.hasMenu.hasMenuSection %}
+            <li><a href="#{{ menuSection.name }}"> {{ menuSection.name }} </a></li>
         {% endfor %}
         </ul>
     </nav>
+    <h1>{{ restaurant.hasMenu.name }}</h1>
     <div>
-    {{ macro_menu.section(menu, 2) }}
+    {{ macroHtmlMenu.section(restaurant.hasMenu.hasMenuSection, 1) }}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="application/ld+json">
+{
+    "@context":"http://schema.org",
+    "@type":"Restaurant",
+    "url":"http://www.somerestaurant.com",
+    "name":"Some Restaurant",
+    "hasMenu":{
+        "@type":"Menu",
+        {% if restaurant.hasMenu.hasMenuSection|length > 0 %}
+        "hasMenuSection": [{{ macroJsonMenu.sectionJsonLd(restaurant.hasMenu.hasMenuSection) }}]
+        {% endif %}
+    }
+}
+</script>
 {% endblock %}
 
 
