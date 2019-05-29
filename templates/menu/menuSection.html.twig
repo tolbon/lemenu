@@ -1,6 +1,5 @@
-{% macro section(menuSection, hNumber) %}
-    {# @var menuSection \App\DTO\MenuSection[]|null #}
-    <ul>
+{# @var menuSection \App\DTO\MenuSection[]|null #}
+<ul>
     {% for section in menuSection %}
         {# @var section \App\DTO\MenuSection #}
         <li>
@@ -10,12 +9,10 @@
             <ul>
                 {% for menuItem in section.hasMenuItem %}
                     <li>
-                        <div>{{ menuItem.name }}</div>
-                        <div> {{ menuItem.description }}</div>
+                        {% include 'menu/dish.html.twig' %}
                     </li>
                 {% endfor %}
             </ul>
         </li>
     {% endfor %}
-    </ul>
-{% endmacro %}
+</ul>

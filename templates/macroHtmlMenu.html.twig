@@ -1,0 +1,20 @@
+{% macro section(menuSection, hNumber) %}
+    {# @var menuSection \App\DTO\MenuSection[]|null #}
+    <ul>
+    {% for section in menuSection %}
+        {# @var section \App\DTO\MenuSection #}
+        <li>
+            <h{{ hNumber }} id="{{ section.name }}">{{ section.name }}</h{{ hNumber }}>
+            {% import _self as self %}
+            {{ self.section(section.hasMenuSection, (hNumber + 1)) }}
+            <ul>
+                {% for menuItem in section.hasMenuItem %}
+                    <li>
+                        {% include 'menu/dish.html.twig' %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+{% endmacro %}

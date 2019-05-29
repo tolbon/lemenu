@@ -7,11 +7,13 @@ use App\DTO\Menu;
 use App\DTO\MenuItem;
 use App\DTO\MenuSection;
 use App\DTO\Restaurant;
+use App\Form\PropertySearchType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
-class RoutingController
+class RoutingController extends AbstractController
 {
     /**
      * @Route("/menuList", name="menu_list")
@@ -62,7 +64,13 @@ class RoutingController
         $menu->hasMenuSection[] = $menuSection2;
         $menu->hasMenuSection[] = new MenuSection();
 
-        $content = $twig->render('menu.html.twig', ['restaurant' => $restaurant]);
+        $form = $this->createForm(PropertySearchType::class, []);
+
+        $content = $twig->render('menu.html.twig',
+            [
+                'restaurant' => $restaurant,
+                'form' => $form->createView()
+            ]);
 
         return new Response($content);
     }

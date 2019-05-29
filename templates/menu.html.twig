@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% import "macro_menu.html.twig" as macroHtmlMenu %}
+{% import "macroHtmlMenu.html.twig" as macroHtmlMenu %}
 {% import "macroJsonMenu.json.twig" as macroJsonMenu %}
 
 {% block title %}{{ restaurant.name }} - {{ restaurant.hasMenu.name}}{% endblock %}
@@ -14,6 +14,10 @@
         {% endfor %}
         </ul>
     </nav>
+    <div>
+        {{ form_start(form) }}
+        {{ form_end(form) }}
+    </div>
     <h1>{{ restaurant.hasMenu.name }}</h1>
     <div>
     {{ macroHtmlMenu.section(restaurant.hasMenu.hasMenuSection, 1) }}
