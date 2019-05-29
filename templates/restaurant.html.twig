@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ restaurant.name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ restaurant.name }}</h1>
+    <a href="{{ restaurant.name }}/menus"> Les Menus</a>
+{% endblock %}
+

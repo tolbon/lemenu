@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ restaurant.name }} - Les Menus{% endblock %}
+
+{% block body %}
+    <h1>{{ restaurant.name }}</h1>
+    <ul>
+    {% for menu in restaurant.hasMenu %}
+        <li><a href="{{ menu.name|lower|url_encode }}">{{ menu.name }}</a></li>
+    {% endfor %}
+    </ul>
+    <a href="carte">La carte</a>
+{% endblock %}
