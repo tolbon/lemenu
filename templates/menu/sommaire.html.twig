@@ -1,6 +1,6 @@
 Sommaire
 <ul>
     {% for menuSection in restaurant.hasMenu.hasMenuSection %}
-        <li><a href="#{{ menuSection.name }}"> {{ menuSection.name }} </a></li>
+        <li><a href="#{{ menuSection.formattedName }}"> {{ menuSection.name }} </a></li>
     {% endfor %}
 </ul>

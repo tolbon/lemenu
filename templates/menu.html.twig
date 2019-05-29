@@ -3,14 +3,14 @@
 {% import "macroHtmlMenu.html.twig" as macroHtmlMenu %}
 {% import "macroJsonMenu.json.twig" as macroJsonMenu %}
 
-{% block title %}{{ restaurant.name }} - {{ restaurant.hasMenu.name}}{% endblock %}
+{% block title %}{{ restaurant.name }} - {{ restaurant.hasMenu[0].name}}{% endblock %}
 
 {% block body %}
     <nav>
         Sommaire
         <ul>
-        {% for menuSection in restaurant.hasMenu.hasMenuSection %}
-            <li><a href="#{{ menuSection.name }}"> {{ menuSection.name }} </a></li>
+        {% for menuSection in restaurant.hasMenu[0].hasMenuSection %}
+            <li><a href="#{{ menuSection.formattedName }}"> {{ menuSection.name }} </a></li>
         {% endfor %}
         </ul>
     </nav>
@@ -18,9 +18,9 @@
         {{ form_start(form) }}
         {{ form_end(form) }}
     </div>
-    <h1>{{ restaurant.hasMenu.name }}</h1>
+    <h1>{{ restaurant.hasMenu[0].name }}</h1>
     <div>
-    {{ macroHtmlMenu.section(restaurant.hasMenu.hasMenuSection, 1) }}
+    {{ macroHtmlMenu.section(restaurant.hasMenu[0].hasMenuSection, restaurant.currency, 2) }}
     </div>
 {% endblock %}
 
@@ -33,8 +33,8 @@
     "name":"Some Restaurant",
     "hasMenu":{
         "@type":"Menu",
-        {% if restaurant.hasMenu.hasMenuSection|length > 0 %}
-        "hasMenuSection": [{{ macroJsonMenu.sectionJsonLd(restaurant.hasMenu.hasMenuSection) }}]
+        {% if restaurant.hasMenu[0].hasMenuSection|length > 0 %}
+        "hasMenuSection": [{{ macroJsonMenu.sectionJsonLd(restaurant.hasMenu[0].hasMenuSection) }}]
         {% endif %}
     }
 }

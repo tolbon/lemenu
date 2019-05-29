@@ -111,7 +111,7 @@ class RoutingController extends AbstractController
     public function menuPage(Environment $twig) {
 
         $restaurant = new Restaurant();
-        $restaurant->name = 'Le Bosphore';
+        $restaurant->name = 'Le BÔsphɵre';
 
         $menu = new Menu();
         $menu->name = "Menu 12/03";
@@ -127,6 +127,8 @@ class RoutingController extends AbstractController
 
         $menuSection2_1 = new MenuSection();
         $menuSection2_1->name = 'Coucou 2-1';
+        $menuSection2_1->description = 'Desc Coucou 2-1';
+        $menuSection2_1->price = 10.0;
         $menuSection2_1->hasMenuItem = [];
 
         $menuItem = new MenuItem();
@@ -136,6 +138,7 @@ class RoutingController extends AbstractController
         $menuItem2 = new MenuItem();
         $menuItem2->name = "KPop";
         $menuItem2->description = "Viande Coreene";
+        $menuItem2->price = 12.5;
 
         $menuSection2->hasMenuItem[] = $menuItem2;
 

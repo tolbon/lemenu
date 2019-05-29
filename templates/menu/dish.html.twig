@@ -1,4 +1,7 @@
 <div>
     <div>{{ menuItem.name }}</div>
+    {% if menuItem.price %}
+        <div><span>{{ menuItem.price }}</span> <span>{{ currency }}</span></div>
+    {% endif %}
     <div>{{ menuItem.description }}</div>
 </div>
