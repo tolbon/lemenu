@@ -16,9 +16,9 @@ class Restaurant
     public $currency = '€';
 
     public function getFormattedName() {
-        $replacements = ['!', '*', "'", '(', ')', ';', ':', '&', '=', '+', '$', ',', '/', '?', '%', '#', '[', ']', ' '];
+        $replacements = ['!', '*', "'", '(', ')', ';', ':', '&', '=', '+', ',', '/', '?', '%', '#', '[', ']', ' '];
 
-        $str = str_replace('@', 'a', $this->name);
+        $str = str_replace(['@', '$'], ['a', 's'], $this->name);
 
         $str = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
 

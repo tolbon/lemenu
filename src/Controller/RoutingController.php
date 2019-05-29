@@ -26,7 +26,7 @@ class RoutingController extends AbstractController
     public function restaurantPage(Environment $twig) {
 
         $restaurant = new Restaurant();
-        $restaurant->name = 'Le Bosphore';
+        $restaurant->name = 'Le BÔ$phɵrœ';
 
         $menu = new Menu();
         $menu->name = "Menu 12/03";
@@ -83,7 +83,7 @@ class RoutingController extends AbstractController
     public function menuList(Environment $twig) {
 
         $restaurant = new Restaurant();
-        $restaurant->name = 'Le Bosphore';
+        $restaurant->name = 'Le BÔ$phɵrœ';
 
         $menu = new Menu();
         $menu->name = "Menu 12/03";
@@ -111,7 +111,7 @@ class RoutingController extends AbstractController
     public function menuPage(Environment $twig) {
 
         $restaurant = new Restaurant();
-        $restaurant->name = 'Le BÔsphɵre';
+        $restaurant->name = 'Le BÔ$phɵrœ';
 
         $menu = new Menu();
         $menu->name = "Menu 12/03";
