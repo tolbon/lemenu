@@ -26,7 +26,7 @@ class RoutingController extends AbstractController
     public function restaurantPage(Environment $twig) {
 
         $restaurant = new Restaurant();
-        $restaurant->name = 'Le BÔ$phɵrœ';
+        $restaurant->name = 'Le BÔ$phɵǒrœ ȘỚỸßØå';
 
         $menu = new Menu();
         $menu->name = "Menu 12/03";
@@ -111,33 +111,35 @@ class RoutingController extends AbstractController
     public function menuPage(Environment $twig) {
 
         $restaurant = new Restaurant();
-        $restaurant->name = 'Le BÔ$phɵrœ';
+        $restaurant->name = 'MacDo';
 
         $menu = new Menu();
-        $menu->name = "Menu 12/03";
+        $menu->name = "Produits";
         $menu->hasMenuItem = [];
 
         $menuSection = new MenuSection();
-        $menuSection->name = 'Coucou';
+        $menuSection->name = 'Des trucs';
 
         $menuSection2 = new MenuSection();
-        $menuSection2->name = 'Coucou 2';
+        $menuSection2->name = 'Nos Menus';
+        $menuSection2->description = '';
         $menuSection2->hasMenuSection = [];
 
 
         $menuSection2_1 = new MenuSection();
-        $menuSection2_1->name = 'Coucou 2-1';
-        $menuSection2_1->description = 'Desc Coucou 2-1';
+        $menuSection2_1->name = 'Le Menu Maxi BEST OF';
+        $menuSection2_1->description = '1 sandwich + 1 frites
+         + 1 bouteille';
         $menuSection2_1->price = 10.0;
         $menuSection2_1->hasMenuItem = [];
 
         $menuItem = new MenuItem();
-        $menuItem->name = "Kebab";
-        $menuItem->description = "De la viande Hallal";
+        $menuItem->name = "Texas Cheese 🍕";
+        $menuItem->description = "Sauce Tomate, Mozzarella, Chorizo, Fromage de chèvre, Tomates fraîches";
 
         $menuItem2 = new MenuItem();
-        $menuItem2->name = "KPop";
-        $menuItem2->description = "Viande Coreene";
+        $menuItem2->name = "Harlem Margherita";
+        $menuItem2->description = "Sauce Tomate, Mozzarella";
         $menuItem2->price = 12.5;
 
         $menuSection2->hasMenuItem[] = $menuItem2;
