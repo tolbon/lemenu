@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\DTO\Menu;
+use App\DTO\MenuItem;
+use App\DTO\MenuSection;
+use App\DTO\Restaurant;
+use App\Form\PropertySearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,6 +15,11 @@ use Twig\Environment;
 
 class RoutingController extends AbstractController
 {
+
+    public function __construct()
+    {
+    }
+
     /**
      * @Route("{restaurantName}", name="restaurantDesc")
      * @param Environment $twig

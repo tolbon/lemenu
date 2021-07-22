@@ -6,11 +6,11 @@ namespace App\DTO;
 class Restaurant
 {
     /** @var string */
-    public $name;
+    public string $name;
     /** @var string */
-    public $description;
+    public string $description;
     /** @var Menu[]|null */
-    public $hasMenu = null;
+    public ?array $hasMenu = null;
     /** @var string */
-    public $currency = '€';
+    public string $currency = 'EUR'; //TWIG {{ '1000000'|format_currency('EUR') }}
 }

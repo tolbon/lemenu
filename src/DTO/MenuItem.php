@@ -6,10 +6,10 @@ namespace App\DTO;
 class MenuItem
 {
     /** @var string */
-    public $name;
+    public string $name;
     /** @var string */
-    public $description;
+    public string $description;
     /** @var float|null */
-    public $price;
+    public float $price;
 
 }

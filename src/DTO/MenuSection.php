@@ -6,14 +6,14 @@ namespace App\DTO;
 class MenuSection
 {
     /** @var string */
-    public $name;
+    public string $name;
     /** @var string */
-    public $description;
+    public string $description;
     /** @var float */
-    public $price;
+    public float $price;
     /** @var MenuSection[]|null  */
-    public $hasMenuSection = null;
+    public ?array $hasMenuSection = null;
     /** @var MenuItem[]|null  */
-    public $hasMenuItem = null;
+    public ?array $hasMenuItem = null;
 
 }

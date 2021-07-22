@@ -7,11 +7,11 @@ namespace App\DTO;
 class Menu
 {
     /** @var string */
-    public $name;
+    public string $name;
     /** @var string */
-    public $description;
+    public string $description;
     /** @var MenuItem[]|null  */
-    public $hasMenuItem = null;
+    public ?array $hasMenuItem = null;
     /** @var MenuSection[]|null  */
     public $hasMenuSection = null;
 }

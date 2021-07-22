@@ -13,7 +13,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PropertySearchType extends AbstractType
 {
-
     private TranslatorInterface $translator;
 
     public function __construct(TranslatorInterface $translator)
