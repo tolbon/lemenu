@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="UqUq1Zi" resname="GlutenFreeDiet">
+        <source>GlutenFreeDiet</source>
+        <target>sans gluten</target>
+      </trans-unit>
+      <trans-unit id="0lN8L9N" resname="HalalDiet">
+        <source>HalalDiet</source>
+        <target>hallal</target>
+      </trans-unit>
+      <trans-unit id="lOMjOaF" resname="HinduDiet">
+        <source>HinduDiet</source>
+        <target>hindu</target>
+      </trans-unit>
+      <trans-unit id="YnEU4Ii" resname="KosherDiet">
+        <source>KosherDiet</source>
+        <target>kasher</target>
+      </trans-unit>
+      <trans-unit id="4jFAS2W" resname="LowLactoseDiet">
+        <source>LowLactoseDiet</source>
+        <target>sans lactose</target>
+      </trans-unit>
+      <trans-unit id="TXkvGgJ" resname="VeganDiet">
+        <source>VeganDiet</source>
+        <target>vegan</target>
+      </trans-unit>
+      <trans-unit id="ZmxmGbR" resname="VegetarianDiet">
+        <source>VegetarianDiet</source>
+        <target>végétarien</target>
+      </trans-unit>
+      <trans-unit id="AGtcWvW" resname="No Pork">
+        <source>No Pork</source>
+        <target>sans porc</target>
+      </trans-unit>
+      <trans-unit id="tXepxu6" resname="no Alcohol">
+        <source>no Alcohol</source>
+        <target>sans alcool</target>
+      </trans-unit>
+      <trans-unit id="QZxx8r3" resname="gluten">
+        <source>gluten</source>
+        <target>gluten</target>
+      </trans-unit>
+      <trans-unit id="gYhi45Y" resname="lactose">
+        <source>lactose</source>
+        <target>lactose</target>
+      </trans-unit>
+      <trans-unit id="NStbZpn" resname="mustard">
+        <source>mustard</source>
+        <target>moutarde</target>
+      </trans-unit>
+      <trans-unit id="VQmEDQh" resname="peanut">
+        <source>peanut</source>
+        <target>arachide</target>
+      </trans-unit>
+      <trans-unit id="3cUXe5I" resname="celery">
+        <source>celery</source>
+        <target>céleri</target>
+      </trans-unit>
+      <trans-unit id="8u.J2Qn" resname="shellfish">
+        <source>shellfish</source>
+        <target>crustacés</target>
+      </trans-unit>
+      <trans-unit id="ff2JKKS" resname="nut">
+        <source>nut</source>
+        <target>fruit à coque</target>
+      </trans-unit>
+      <trans-unit id="XS2zyRW" resname="lupine">
+        <source>lupine</source>
+        <target>lupin</target>
+      </trans-unit>
+      <trans-unit id="FBCGdM2" resname="mollusc">
+        <source>mollusc</source>
+        <target>mollusque</target>
+      </trans-unit>
+      <trans-unit id="NHB8P0D" resname="egg">
+        <source>egg</source>
+        <target>oeuf</target>
+      </trans-unit>
+      <trans-unit id="tHSpmic" resname="fish">
+        <source>fish</source>
+        <target>poisson</target>
+      </trans-unit>
+      <trans-unit id="5na1EDp" resname="soy">
+        <source>soy</source>
+        <target>soja</target>
+      </trans-unit>
+      <trans-unit id="IvZ.svc" resname="sulphites">
+        <source>sulphites</source>
+        <target>sulfites</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
