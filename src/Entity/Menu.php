@@ -36,7 +36,7 @@ class Menu
     /**
      * @ORM\Column(type="boolean")
      */
-    private $activate;
+    private $activate = true;
 
     public function getId(): ?int
     {

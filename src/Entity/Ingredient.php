@@ -27,12 +27,12 @@ class Ingredient
     /**
      * @ORM\ManyToMany(targetEntity=IngredientTag::class, mappedBy="attach")
      */
-    private $ingredientTags;
+    private ArrayCollection $ingredientTags;
 
     /**
      * @ORM\ManyToMany(targetEntity=MenuItem::class, mappedBy="ingredients")
      */
-    private $menuItems;
+    private ArrayCollection $menuItems;
 
     public function __construct()
     {

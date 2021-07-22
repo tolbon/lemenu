@@ -6,6 +6,7 @@ use App\Repository\MenuSectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MenuSectionRepository::class)
@@ -30,24 +31,24 @@ class MenuSection
     private string $description;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true, options={"unsigned"=true})
      */
-    private float $price;
+    private float $price = 0.0;
 
     /**
      * @ORM\ManyToOne(targetEntity=MenuSection::class, inversedBy="hasMenuSection")
      */
-    private $menuSection;
+    private ArrayCollection $menuSection;
 
     /**
      * @ORM\OneToMany(targetEntity=MenuSection::class, mappedBy="menuSection")
      */
-    private $hasMenuSection;
+    private ArrayCollection $hasMenuSection;
 
     /**
      * @ORM\ManyToMany(targetEntity=MenuItem::class, inversedBy="menuSections")
      */
-    private $hasMenuItem;
+    private ArrayCollection $hasMenuItem;
 
     public function __construct()
     {

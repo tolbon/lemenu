@@ -30,24 +30,24 @@ class MenuItem
     private string $description;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true, options={"unsigned"=true})
      */
-    private float $price;
+    private ?float $price = null;
 
     /**
      * @ORM\ManyToMany(targetEntity=MenuSection::class, mappedBy="hasMenuItem")
      */
-    private $menuSections;
+    private ArrayCollection $menuSections;
 
     /**
      * @ORM\ManyToMany(targetEntity=MenuItemTag::class, mappedBy="attach")
      */
-    private $menuItemTags;
+    private ArrayCollection $menuItemTags;
 
     /**
      * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="menuItems")
      */
-    private $ingredients;
+    private ArrayCollection $ingredients;
 
     public function __construct()
     {

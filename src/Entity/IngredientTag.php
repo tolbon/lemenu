@@ -32,7 +32,7 @@ class IngredientTag
     /**
      * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="ingredientTags")
      */
-    private $attach;
+    private ArrayCollection $attach;
 
     public function __construct()
     {
