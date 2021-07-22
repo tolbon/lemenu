@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MenuRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +39,16 @@ class Menu
      * @ORM\Column(type="boolean")
      */
     private $activate = true;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=MenuSection::class, inversedBy="menus")
+     */
+    private $hasMenuSection;
+
+    public function __construct()
+    {
+        $this->hasMenuSection = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -87,6 +99,30 @@ class Menu
     public function setActivate(bool $activate): self
     {
         $this->activate = $activate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MenuSection[]
+     */
+    public function getHasMenuSection(): Collection
+    {
+        return $this->hasMenuSection;
+    }
+
+    public function addHasMenuSection(MenuSection $hasMenuSection): self
+    {
+        if (!$this->hasMenuSection->contains($hasMenuSection)) {
+            $this->hasMenuSection[] = $hasMenuSection;
+        }
+
+        return $this;
+    }
+
+    public function removeHasMenuSection(MenuSection $hasMenuSection): self
+    {
+        $this->hasMenuSection->removeElement($hasMenuSection);
 
         return $this;
     }

@@ -37,12 +37,12 @@ class MenuItem
     /**
      * @ORM\ManyToMany(targetEntity=MenuSection::class, mappedBy="hasMenuItem")
      */
-    private ArrayCollection $menuSections;
+    private $menuSections;
 
     /**
      * @ORM\ManyToMany(targetEntity=MenuItemTag::class, mappedBy="attach")
      */
-    private ArrayCollection $menuItemTags;
+    private $menuItemTags;
 
     /**
      * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="menuItems")

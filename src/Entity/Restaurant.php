@@ -31,7 +31,7 @@ class Restaurant
     private string $description;
 
     /**
-     * @ORM\Column(type="string", length=5, options={"default" : 'EUR'})
+     * @ORM\Column(type="string", length=5, options={"default" : "EUR"})
      * @Assert\Currency
      */
     private string $currency;

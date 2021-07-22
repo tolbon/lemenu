@@ -33,27 +33,33 @@ class MenuSection
     /**
      * @ORM\Column(type="float", nullable=true, options={"unsigned"=true})
      */
-    private float $price = 0.0;
+    private ?float $price = 0.0;
 
     /**
      * @ORM\ManyToOne(targetEntity=MenuSection::class, inversedBy="hasMenuSection")
      */
-    private ArrayCollection $menuSection;
+    private $menuSection;
 
     /**
      * @ORM\OneToMany(targetEntity=MenuSection::class, mappedBy="menuSection")
      */
-    private ArrayCollection $hasMenuSection;
+    private $hasMenuSection;
 
     /**
      * @ORM\ManyToMany(targetEntity=MenuItem::class, inversedBy="menuSections")
      */
-    private ArrayCollection $hasMenuItem;
+    private $hasMenuItem;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Menu::class, mappedBy="hasMenuSection")
+     */
+    private $menus;
 
     public function __construct()
     {
         $this->hasMenuSection = new ArrayCollection();
         $this->hasMenuItem = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,6 +165,33 @@ class MenuSection
     public function removeHasMenuItem(MenuItem $hasMenuItem): self
     {
         $this->hasMenuItem->removeElement($hasMenuItem);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Menu[]
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): self
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus[] = $menu;
+            $menu->addHasMenuSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): self
+    {
+        if ($this->menus->removeElement($menu)) {
+            $menu->removeHasMenuSection($this);
+        }
 
         return $this;
     }

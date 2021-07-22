@@ -33,12 +33,12 @@
         <source>VegetarianDiet</source>
         <target>végétarien</target>
       </trans-unit>
-      <trans-unit id="AGtcWvW" resname="No Pork">
-        <source>No Pork</source>
+      <trans-unit id="AGtcWvW" resname="NoPork">
+        <source>NoPork</source>
         <target>sans porc</target>
       </trans-unit>
-      <trans-unit id="tXepxu6" resname="no Alcohol">
-        <source>no Alcohol</source>
+      <trans-unit id="tXepxu6" resname="AlcoholFree">
+        <source>AlcoholFree</source>
         <target>sans alcool</target>
       </trans-unit>
       <trans-unit id="QZxx8r3" resname="gluten">

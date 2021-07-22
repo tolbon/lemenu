@@ -39,37 +39,37 @@ class PropertySearchType extends AbstractType
                     'Vege' => 'Vege',
                     */
                     //'DiabeticDiet' => 'DiabeticDiet',
-                    'GlutenFreeDiet' => $this->translator->trans('GlutenFreeDiet'), //Doublon déja dans les allergenes
-                    'HalalDiet' => $this->translator->trans('HalalDiet'),
-                    'HinduDiet' => $this->translator->trans('HinduDiet'),
-                    'KosherDiet' => $this->translator->trans('KosherDiet'),
-                    //'LowCalorieDiet' => 'LowCalorieDiet',
-                    //'LowFatDiet' => 'LowFatDiet',
-                    'LowLactoseDiet' => $this->translator->trans('LowLactoseDiet'), //Doublon déja dans les allergenes
-                    //'LowSaltDiet' => 'LowSaltDiet',
-                    'VeganDiet' => $this->translator->trans('VeganDiet'),
-                    'VegetarianDiet' => $this->translator->trans('VegetarianDiet'),
-                    'NoPork' => $this->translator->trans('No Pork'),
-                    'AlcoholFree' => $this->translator->trans('no Alcohol'),
+                    $this->translator->trans('GlutenFreeDiet') => 'GlutenFreeDiet', //Doublon déja dans les allergenes
+                    $this->translator->trans('HalalDiet') => 'HalalDiet',
+                    $this->translator->trans('HinduDiet') => 'HinduDiet',
+                    $this->translator->trans('KosherDiet') => 'KosherDiet',
+                    //'LowCalorieDiet)' => '/'''LowCalorieDiet',
+                    //'LowFatDiet)' => '/'''LowFatDiet',
+                    $this->translator->trans('LowLactoseDiet') => 'LowLactoseDiet', //Doublon déja dans les allergenes
+                    //'LowSaltDiet)' => '/'''LowSaltDiet',
+                    $this->translator->trans('VeganDiet') => 'VeganDiet',
+                    $this->translator->trans('VegetarianDiet') => 'VegetarianDiet',
+                    $this->translator->trans('NoPork') => 'NoPork',
+                    $this->translator->trans('AlcoholFree') => 'AlcoholFree',
                 ],
                 'multiple' => true])
             ->add('allergy', ChoiceType::class, [
                 'required' => false,
                 'choices' => [
-                    'peanut' => $this->translator->trans('peanut'),
-                    'celery' => $this->translator->trans('celery'),
-                    'shellfish' =>  $this->translator->trans('shellfish'),
-                    'nut' => $this->translator->trans('nut'),
-                    'gluten' => $this->translator->trans('gluten'),
-                    'lactose' => $this->translator->trans('lactose'),
-                    'lupine' => $this->translator->trans('lupine'),
-                    'mollusc' => $this->translator->trans('mollusc'),
-                    'mustard' => $this->translator->trans('mustard'),
-                    'egg' => $this->translator->trans('egg'),
-                    'fish' => $this->translator->trans('fish'),
-                    'sesame' => $this->translator->trans('sesame'),
-                    'soy' => $this->translator->trans('soy'),
-                    'sulphites' => $this->translator->trans('sulphites')
+                    $this->translator->trans('peanut') => 'peanut',
+                    $this->translator->trans('celery') => 'celery',
+                     $this->translator->trans('shellfish') => 'shellfish',
+                    $this->translator->trans('nut') => 'nut',
+                    $this->translator->trans('gluten') => 'gluten',
+                    $this->translator->trans('lactose') => 'lactose',
+                    $this->translator->trans('lupine') => 'lupine',
+                    $this->translator->trans('mollusc') => 'mollusc',
+                    $this->translator->trans('mustard') => 'mustard',
+                    $this->translator->trans('egg') => 'egg',
+                    $this->translator->trans('fish') => 'fish',
+                    $this->translator->trans('sesame') => 'sesame',
+                    $this->translator->trans('soy') => 'soy',
+                    $this->translator->trans('sulphites') => 'sulphites',
                 ],
                 'multiple' => true
             ])
