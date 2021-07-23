@@ -47,7 +47,12 @@ class MenuItem
     /**
      * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="menuItems")
      */
-    private ArrayCollection $ingredients;
+    private $ingredients;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $displayCurrencySymbol;
 
     public function __construct()
     {
@@ -171,6 +176,18 @@ class MenuItem
     public function removeIngredient(Ingredient $ingredient): self
     {
         $this->ingredients->removeElement($ingredient);
+
+        return $this;
+    }
+
+    public function getDisplayCurrencySymbol(): ?bool
+    {
+        return $this->displayCurrencySymbol;
+    }
+
+    public function setDisplayCurrencySymbol(bool $displayCurrencySymbol): self
+    {
+        $this->displayCurrencySymbol = $displayCurrencySymbol;
 
         return $this;
     }

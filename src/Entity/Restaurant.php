@@ -46,6 +46,21 @@ class Restaurant
      */
     private bool $activate;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $url_slug;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
+
     public function __construct()
     {
         $this->hasMenu = new ArrayCollection();
@@ -130,6 +145,42 @@ class Restaurant
     public function setActivate(bool $activate): self
     {
         $this->activate = $activate;
+
+        return $this;
+    }
+
+    public function getUrlSlug(): ?string
+    {
+        return $this->url_slug;
+    }
+
+    public function setUrlSlug(?string $url_slug): self
+    {
+        $this->url_slug = $url_slug;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

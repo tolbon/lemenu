@@ -23,8 +23,12 @@ class PropertySearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('search', TextType::class, ['required' => false])
-            ->add('diet', ChoiceType::class, ['required' => false,
+            ->add('search', TextType::class, [
+                'label' => 'search',
+                'required' => false])
+            ->add('diet', ChoiceType::class, [
+                'label' => 'diet',
+                'required' => false,
                 'choices' => [
                    /* 'vegan' => '100% Vegetal',
                     'vegetarien' => 'Végétarien',
@@ -39,41 +43,42 @@ class PropertySearchType extends AbstractType
                     'Vege' => 'Vege',
                     */
                     //'DiabeticDiet' => 'DiabeticDiet',
-                    $this->translator->trans('GlutenFreeDiet') => 'GlutenFreeDiet', //Doublon déja dans les allergenes
-                    $this->translator->trans('HalalDiet') => 'HalalDiet',
-                    $this->translator->trans('HinduDiet') => 'HinduDiet',
-                    $this->translator->trans('KosherDiet') => 'KosherDiet',
+                    'GlutenFreeDiet' => 'GlutenFreeDiet', //Doublon déja dans les allergenes
+                    'HalalDiet' => 'HalalDiet',
+                    'HinduDiet' => 'HinduDiet',
+                    'KosherDiet' => 'KosherDiet',
                     //'LowCalorieDiet)' => '/'''LowCalorieDiet',
                     //'LowFatDiet)' => '/'''LowFatDiet',
-                    $this->translator->trans('LowLactoseDiet') => 'LowLactoseDiet', //Doublon déja dans les allergenes
+                    'LowLactoseDiet' => 'LowLactoseDiet', //Doublon déja dans les allergenes
                     //'LowSaltDiet)' => '/'''LowSaltDiet',
-                    $this->translator->trans('VeganDiet') => 'VeganDiet',
-                    $this->translator->trans('VegetarianDiet') => 'VegetarianDiet',
-                    $this->translator->trans('NoPork') => 'NoPork',
-                    $this->translator->trans('AlcoholFree') => 'AlcoholFree',
+                    'VeganDiet' => 'VeganDiet',
+                    'VegetarianDiet' => 'VegetarianDiet',
+                    'NoPork' => 'NoPork',
+                    'AlcoholFree' => 'AlcoholFree',
                 ],
                 'multiple' => true])
             ->add('allergy', ChoiceType::class, [
+                'label' => 'allergy',
                 'required' => false,
                 'choices' => [
-                    $this->translator->trans('peanut') => 'peanut',
-                    $this->translator->trans('celery') => 'celery',
-                     $this->translator->trans('shellfish') => 'shellfish',
-                    $this->translator->trans('nut') => 'nut',
-                    $this->translator->trans('gluten') => 'gluten',
-                    $this->translator->trans('lactose') => 'lactose',
-                    $this->translator->trans('lupine') => 'lupine',
-                    $this->translator->trans('mollusc') => 'mollusc',
-                    $this->translator->trans('mustard') => 'mustard',
-                    $this->translator->trans('egg') => 'egg',
-                    $this->translator->trans('fish') => 'fish',
-                    $this->translator->trans('sesame') => 'sesame',
-                    $this->translator->trans('soy') => 'soy',
-                    $this->translator->trans('sulphites') => 'sulphites',
+                    'peanut' => 'peanut',
+                    'celery' => 'celery',
+                    'shellfish' => 'shellfish',
+                    'nut' => 'nut',
+                    'gluten' => 'gluten',
+                    'lactose' => 'lactose',
+                    'lupine' => 'lupine',
+                    'mollusc' => 'mollusc',
+                    'mustard' => 'mustard',
+                    'egg' => 'egg',
+                    'fish' => 'fish',
+                    'sesame' => 'sesame',
+                    'soy' => 'soy',
+                    'sulphites' => 'sulphites',
                 ],
-                'multiple' => true
+                'multiple' => true,
             ])
-            ->add('save', SubmitType::class)
+            ->add('filter', SubmitType::class, ['label' => 'filter'])
         ;
     }
 
@@ -81,7 +86,7 @@ class PropertySearchType extends AbstractType
     {
         $resolver->setDefaults([
             'method' => 'get',
-            'csrf_protection' => false
+            'csrf_protection' => true
         ]);
     }
 }

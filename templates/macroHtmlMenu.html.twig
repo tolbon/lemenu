@@ -1,0 +1,22 @@
+{% macro section(menuSection, currency, hNumber) %}
+    <ul>
+        {% for section in menuSection %}
+            <li>
+                <h{{ hNumber }} id="{{ section.name }}">{{ section.name }}
+                    {% if section.price %}
+                        <span>{{ section.price }}</span> <span>{{ currency }}</span>
+                    {% endif %}
+                </h{{ hNumber }}>
+                <p>{{ section.description }}</p>
+                {{ _self.section(section.hasMenuSection, currency, (hNumber + 1)) }}
+                <ul>
+                    {% for menuItem in section.hasMenuItem %}
+                        <li>
+                            {% include 'components/menuItem.html.twig' %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}

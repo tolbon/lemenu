@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\DTO\FilterMenuDTO;
 use App\Entity\Restaurant;
 use App\Form\PropertySearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
@@ -70,9 +72,7 @@ class RoutingController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function menuPage(string $restaurantName, string $menuName, Environment $twig) {
-
-
+    public function menuPage(string $restaurantName, string $menuName, Environment $twig, Request $request) {
         $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
 
         $restaurant = $restaurantRepo->findOneBy(['id' => 1]);
@@ -81,14 +81,20 @@ class RoutingController extends AbstractController
             $menuSection = $menu->getHasMenuSection();
         }
 
+        $filterMenu = new FilterMenuDTO();
+        $form = $this->createForm(PropertySearchType::class, $filterMenu);
 
-        $form = $this->createForm(PropertySearchType::class, []);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $filterMenu = $form->getData();
+        }
 
         $content = $twig->render('menu.html.twig',
-            [
-                'restaurant' => $restaurant,
-                'form' => $form->createView()
-            ]);
+        [
+            'restaurant' => $restaurant,
+            'form' => $form->createView()
+        ]);
 
         return new Response($content);
     }

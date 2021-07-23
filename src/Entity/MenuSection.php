@@ -55,6 +55,11 @@ class MenuSection
      */
     private $menus;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $displayCurrencySymbol;
+
     public function __construct()
     {
         $this->hasMenuSection = new ArrayCollection();
@@ -192,6 +197,18 @@ class MenuSection
         if ($this->menus->removeElement($menu)) {
             $menu->removeHasMenuSection($this);
         }
+
+        return $this;
+    }
+
+    public function getDisplayCurrencySymbol(): ?bool
+    {
+        return $this->displayCurrencySymbol;
+    }
+
+    public function setDisplayCurrencySymbol(bool $displayCurrencySymbol): self
+    {
+        $this->displayCurrencySymbol = $displayCurrencySymbol;
 
         return $this;
     }

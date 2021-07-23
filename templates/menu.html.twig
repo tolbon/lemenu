@@ -1,12 +1,15 @@
 {% extends "base.html.twig" %}
 
-{#
+
 {% import "macroHtmlMenu.html.twig" as macroHtmlMenu %}
+{#
 {% import "macroJsonMenu.json.twig" as macroJsonMenu %}
 #}
 {% block title %}{{ restaurant.name }} - {{ restaurant.hasMenu[0].name}}{% endblock %}
 
 {% block body %}
+    <h1>{{ restaurant.name }}</h1>
+    <a href="{{ path('menu_list', {'restaurantName': restaurant.name|url_encode}) }}">{% trans %}menus{% endtrans %}</a>
     <nav>
         Sommaire
         <ul>
@@ -21,7 +24,7 @@
     </div>
     <h1>{{ restaurant.hasMenu[0].name }}</h1>
     <div>
-        {# {{ macroHtmlMenu.section(restaurant.hasMenu[0].hasMenuSection, restaurant.currency, 2) }} #}
+         {{ macroHtmlMenu.section(restaurant.hasMenu[0].hasMenuSection, restaurant.currency, 2) }}
     </div>
 {% endblock %}
 
