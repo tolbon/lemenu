@@ -86,10 +86,16 @@ class Restaurant
      */
     private $menuItems;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=LabelRestaurant::class)
+     */
+    private $restaurantLabels;
+
     public function __construct()
     {
         $this->hasMenu = new ArrayCollection();
         $this->menuItems = new ArrayCollection();
+        $this->restaurantLabels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -237,6 +243,30 @@ class Restaurant
                 $menuItem->setRestaurant(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LabelRestaurant[]
+     */
+    public function getRestaurantLabels(): Collection
+    {
+        return $this->restaurantLabels;
+    }
+
+    public function addRestaurantLabel(LabelRestaurant $restaurantLabel): self
+    {
+        if (!$this->restaurantLabels->contains($restaurantLabel)) {
+            $this->restaurantLabels[] = $restaurantLabel;
+        }
+
+        return $this;
+    }
+
+    public function removeRestaurantLabel(LabelRestaurant $restaurantLabel): self
+    {
+        $this->restaurantLabels->removeElement($restaurantLabel);
 
         return $this;
     }

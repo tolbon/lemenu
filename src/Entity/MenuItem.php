@@ -54,16 +54,6 @@ class MenuItem
     private $insertDateDb;
 
     /**
-     * @ORM\ManyToMany(targetEntity=MenuSection::class, mappedBy="hasMenuItem")
-     */
-    private $menuSections;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=MenuItemTag::class, mappedBy="attach")
-     */
-    private $menuItemTags;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="menuItems")
      */
     private $ingredients;
@@ -75,13 +65,29 @@ class MenuItem
     private $restaurant;
 
     /**
+     * @ORM\ManyToMany(targetEntity=LabelMenuItem::class)
+     */
+    private $labels;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Allergy::class)
+     */
+    private $allergens;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Diet::class)
+     */
+    private $diets;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
-        $this->menuItemTags = new ArrayCollection();
-        $this->menuSections = new ArrayCollection();
+        $this->labels = new ArrayCollection();
+        $this->allergens = new ArrayCollection();
+        $this->diets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,60 +132,6 @@ class MenuItem
     }
 
     /**
-     * @return Collection|MenuSection[]
-     */
-    public function getMenuSections(): Collection
-    {
-        return $this->menuSections;
-    }
-
-    public function addMenuSection(MenuSection $menuSection): self
-    {
-        if (!$this->menuSections->contains($menuSection)) {
-            $this->menuSections[] = $menuSection;
-            $menuSection->addHasMenuItem($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMenuSection(MenuSection $menuSection): self
-    {
-        if ($this->menuSections->removeElement($menuSection)) {
-            $menuSection->removeHasMenuItem($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|MenuItemTag[]
-     */
-    public function getMenuItemTags(): Collection
-    {
-        return $this->menuItemTags;
-    }
-
-    public function addMenuItemTag(MenuItemTag $menuItemTag): self
-    {
-        if (!$this->menuItemTags->contains($menuItemTag)) {
-            $this->menuItemTags[] = $menuItemTag;
-            $menuItemTag->addAttach($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMenuItemTag(MenuItemTag $menuItemTag): self
-    {
-        if ($this->menuItemTags->removeElement($menuItemTag)) {
-            $menuItemTag->removeAttach($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Ingredient[]
      */
     public function getIngredients(): Collection
@@ -211,6 +163,78 @@ class MenuItem
     public function setRestaurant(Restaurant $restaurant): self
     {
         $this->restaurant = $restaurant;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LabelMenuItem[]
+     */
+    public function getLabels(): Collection
+    {
+        return $this->labels;
+    }
+
+    public function addLabel(LabelMenuItem $label): self
+    {
+        if (!$this->labels->contains($label)) {
+            $this->labels[] = $label;
+        }
+
+        return $this;
+    }
+
+    public function removeLabel(LabelMenuItem $label): self
+    {
+        $this->labels->removeElement($label);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Allergy[]
+     */
+    public function getAllergens(): Collection
+    {
+        return $this->allergens;
+    }
+
+    public function addAllergen(Allergy $allergen): self
+    {
+        if (!$this->allergens->contains($allergen)) {
+            $this->allergens[] = $allergen;
+        }
+
+        return $this;
+    }
+
+    public function removeAllergen(Allergy $allergen): self
+    {
+        $this->allergens->removeElement($allergen);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Diet[]
+     */
+    public function getDiets(): Collection
+    {
+        return $this->diets;
+    }
+
+    public function addDiet(Diet $diet): self
+    {
+        if (!$this->diets->contains($diet)) {
+            $this->diets[] = $diet;
+        }
+
+        return $this;
+    }
+
+    public function removeDiet(Diet $diet): self
+    {
+        $this->diets->removeElement($diet);
 
         return $this;
     }

@@ -9,7 +9,6 @@ use App\Repository\MenuSectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MenuSection
@@ -104,12 +103,17 @@ class MenuSection
      */
     private $menus;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MenuHasMenuSection::class, mappedBy="MenuSection", orphanRemoval=true)
+     */
+    private $menuHasMenuSections;
 
     public function __construct()
     {
         $this->hasMenuSection = new ArrayCollection();
         $this->hasMenuItem = new ArrayCollection();
         $this->menus = new ArrayCollection();
+        $this->menuHasMenuSections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,6 +223,13 @@ class MenuSection
         return $this;
     }
 
+    public function replaceHasMenuItem($hasMenuItems): self
+    {
+        $this->hasMenuItem = $hasMenuItems;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Menu[]
      */
@@ -316,6 +327,48 @@ class MenuSection
     public function setInsertDateDb($insertDateDb): self
     {
         $this->insertDateDb = $insertDateDb;
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MenuHasMenuSection[]
+     */
+    public function getMenuHasMenuSections(): Collection
+    {
+        return $this->menuHasMenuSections;
+    }
+
+    public function addMenuHasMenuSection(MenuHasMenuSection $menuHasMenuSection): self
+    {
+        if (!$this->menuHasMenuSections->contains($menuHasMenuSection)) {
+            $this->menuHasMenuSections[] = $menuHasMenuSection;
+            $menuHasMenuSection->setMenuSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenuHasMenuSection(MenuHasMenuSection $menuHasMenuSection): self
+    {
+        if ($this->menuHasMenuSections->removeElement($menuHasMenuSection)) {
+            // set the owning side to null (unless already changed)
+            if ($menuHasMenuSection->getMenuSection() === $this) {
+                $menuHasMenuSection->setMenuSection(null);
+            }
+        }
+
         return $this;
     }
 }

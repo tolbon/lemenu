@@ -7,6 +7,7 @@ use App\DTO\FilterMenuDTO;
 use App\Entity\Menu;
 use App\Entity\Restaurant;
 use App\Form\PropertySearchType;
+use App\Service\FilterMenuItem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +17,11 @@ use Twig\Environment;
 class RoutingController extends AbstractController
 {
 
-    public function __construct()
+    private FilterMenuItem $filterMenuItem;
+
+    public function __construct(FilterMenuItem $filterMenuItem)
     {
+        $this->filterMenuItem = $filterMenuItem;
     }
 
     /**
@@ -78,7 +82,7 @@ class RoutingController extends AbstractController
         $menuRepo = $this->getDoctrine()->getRepository(Menu::class);
 
         $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
-        $menu = $menuRepo->findOneBy(['urlSlug' => $menuName, 'restaurant' => $restaurant]);
+        $menu = $menuRepo->findMyMenu($restaurant, $menuName);
 
         $filterMenu = new FilterMenuDTO();
         $form = $this->createForm(PropertySearchType::class, $filterMenu);
@@ -88,6 +92,10 @@ class RoutingController extends AbstractController
         {
             $filterMenu = $form->getData();
         }
+
+
+
+        $this->filterMenuItem->filter($menu, $filterMenu);
 
         $content = $twig->render('menu.html.twig',
         [

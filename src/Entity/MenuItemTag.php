@@ -55,7 +55,7 @@ class MenuItemTag
     /**
     * @ORM\ManyToMany(targetEntity=MenuItem::class, inversedBy="menuItemTags")
     */
-    private ArrayCollection $attach;
+    private $attach;
 
     public function __construct()
     {

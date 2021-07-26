@@ -72,11 +72,17 @@ class Menu
     private $hasMenuSection;
 
     /**
+     * @ORM\OneToMany(targetEntity=MenuHasMenuSection::class, mappedBy="menu", orphanRemoval=true)
+     */
+    private $menuHasMenuSections;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->hasMenuSection = new ArrayCollection();
+        $this->menuHasMenuSections = new ArrayCollection();
     }
 
     /**
@@ -225,6 +231,36 @@ class Menu
     public function removeHasMenuSection(MenuSection $hasMenuSection): self
     {
         $this->hasMenuSection->removeElement($hasMenuSection);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MenuHasMenuSection[]
+     */
+    public function getMenuHasMenuSections(): Collection
+    {
+        return $this->menuHasMenuSections;
+    }
+
+    public function addMenuHasMenuSection(MenuHasMenuSection $menuHasMenuSection): self
+    {
+        if (!$this->menuHasMenuSections->contains($menuHasMenuSection)) {
+            $this->menuHasMenuSections[] = $menuHasMenuSection;
+            $menuHasMenuSection->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenuHasMenuSection(MenuHasMenuSection $menuHasMenuSection): self
+    {
+        if ($this->menuHasMenuSections->removeElement($menuHasMenuSection)) {
+            // set the owning side to null (unless already changed)
+            if ($menuHasMenuSection->getMenu() === $this) {
+                $menuHasMenuSection->setMenu(null);
+            }
+        }
 
         return $this;
     }
