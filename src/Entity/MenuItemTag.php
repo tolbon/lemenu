@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -8,30 +9,52 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * MenuItemTag
+ *
+ * @ORM\Table(name="menu_item_tag", uniqueConstraints={@ORM\UniqueConstraint(name="name_UNIQUE", columns={"name"})})
  * @ORM\Entity(repositoryClass=MenuItemTagRepository::class)
  */
 class MenuItemTag
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=180, nullable=false)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity=MenuItem::class, inversedBy="menuItemTags")
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @\ManyToMany(targetEntity="MenuItem", inversedBy="menuItemTag")
+     * @\JoinTable(name="menu_item_tag_menu_item",
+     *   joinColumns={
+     *     @\JoinColumn(name="menu_item_tag_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @\JoinColumn(name="menu_item_id", referencedColumnName="id")
+     *   }
+     * )
      */
+    /**
+    * @ORM\ManyToMany(targetEntity=MenuItem::class, inversedBy="menuItemTags")
+    */
     private ArrayCollection $attach;
 
     public function __construct()

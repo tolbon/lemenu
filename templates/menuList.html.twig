@@ -4,9 +4,11 @@
 
 {% block body %}
     <h1>{{ restaurant.name }}</h1>
+    <h2>{% trans %}menus{% endtrans %}</h2>
     <ul>
         {% for menu in restaurant.hasMenu %}
-            <li><a href="{{ path('menu', {'restaurantName': restaurant.name|url_encode, 'menuName': menu.name|url_encode}) }}">{{ menu.name }}</a></li>
+            {# menu \App\Entity\Menu #}
+            <li><a href="{{ path('menu', {'restaurantName': restaurant.urlSlug|url_encode, 'menuName': menu.urlSlug|url_encode}) }}">{{ menu.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

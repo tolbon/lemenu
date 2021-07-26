@@ -1,26 +1,34 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\IngredientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\IngredientRepository;
+use Doctrine\Common\Collections\Collection;
 
 /**
+ * Ingredient
+ *
+ * @ORM\Table(name="ingredient", uniqueConstraints={@ORM\UniqueConstraint(name="name_UNIQUE", columns={"name"})})
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
  */
 class Ingredient
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=180, nullable=false)
      */
     private string $name;
 
@@ -110,4 +118,5 @@ class Ingredient
 
         return $this;
     }
+
 }

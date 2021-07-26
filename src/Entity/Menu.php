@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -8,98 +9,199 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Menu
+ *
+ * @ORM\Table(name="menu", uniqueConstraints={@ORM\UniqueConstraint(name="UIDX_restaurantId_name", columns={"restaurant_id", "name"})}, indexes={@ORM\Index(name="IDX_7D053A93B1E7706E", columns={"restaurant_id"})})
  * @ORM\Entity(repositoryClass=MenuRepository::class)
  */
 class Menu
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
-    private $description;
+    private string $description;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="activate", type="boolean", nullable=false)
+     */
+    private bool $activate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url_slug", type="string", length=255, nullable=false)
+     */
+    private string $urlSlug;
+
+    /**
+     * @var \DateTimeImmutable
+     *
+     * @ORM\Column(name="insert_date_db", type="datetimetz_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $insertDateDb = 'CURRENT_TIMESTAMP';
 
     /**
      * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="hasMenu")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $restaurant;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $activate = true;
+    private Restaurant $restaurant;
 
     /**
      * @ORM\ManyToMany(targetEntity=MenuSection::class, inversedBy="menus")
      */
     private $hasMenuSection;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->hasMenuSection = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    /**
+     * @param int $id
+     * @return Menu
+     */
+    public function setId(int $id): Menu
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    /**
+     * @param string $name
+     * @return Menu
+     */
+    public function setName(string $name): Menu
     {
         $this->name = $name;
-
         return $this;
     }
 
-    public function getDescription(): ?string
+    /**
+     * @return string
+     */
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    /**
+     * @param string $description
+     * @return Menu
+     */
+    public function setDescription(string $description): Menu
     {
         $this->description = $description;
-
         return $this;
     }
 
-    public function getRestaurant(): ?Restaurant
-    {
-        return $this->restaurant;
-    }
-
-    public function setRestaurant(?Restaurant $restaurant): self
-    {
-        $this->restaurant = $restaurant;
-
-        return $this;
-    }
-
-    public function isActivate(): ?bool
+    /**
+     * @return bool
+     */
+    public function isActivate(): bool
     {
         return $this->activate;
     }
 
-    public function setActivate(bool $activate): self
+    /**
+     * @param bool $activate
+     * @return Menu
+     */
+    public function setActivate(bool $activate): Menu
     {
         $this->activate = $activate;
+        return $this;
+    }
 
+    /**
+     * @return string
+     */
+    public function getUrlSlug(): string
+    {
+        return $this->urlSlug;
+    }
+
+    /**
+     * @param string $urlSlug
+     * @return Menu
+     */
+    public function setUrlSlug(string $urlSlug): Menu
+    {
+        $this->urlSlug = $urlSlug;
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getInsertDateDb()
+    {
+        return $this->insertDateDb;
+    }
+
+    /**
+     * @param \DateTimeImmutable $insertDateDb
+     * @return Menu
+     */
+    public function setInsertDateDb($insertDateDb)
+    {
+        $this->insertDateDb = $insertDateDb;
+        return $this;
+    }
+
+    /**
+     * @return Restaurant
+     */
+    public function getRestaurant(): Restaurant
+    {
+        return $this->restaurant;
+    }
+
+    /**
+     * @param Restaurant $restaurant
+     * @return Menu
+     */
+    public function setRestaurant(Restaurant $restaurant): Menu
+    {
+        $this->restaurant = $restaurant;
         return $this;
     }
 
@@ -126,4 +228,6 @@ class Menu
 
         return $this;
     }
+
+
 }

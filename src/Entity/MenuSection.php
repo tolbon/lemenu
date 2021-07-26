@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Menu;
+use App\Entity\MenuItem;
 use App\Repository\MenuSectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,36 +12,82 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * MenuSection
+ *
+ * @ORM\Table(name="menu_section", indexes={@ORM\Index(name="IDX_A5A86751F98E57A8", columns={"menu_section_id"})})
  * @ORM\Entity(repositoryClass=MenuSectionRepository::class)
  */
 class MenuSection
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
     private string $description;
 
     /**
-     * @ORM\Column(type="float", nullable=true, options={"unsigned"=true})
+     * @var float|null
+     *
+     * @ORM\Column(name="price", type="float", precision=8, scale=2, nullable=true)
      */
-    private ?float $price = 0.0;
+    private ?float $price;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="display_currency_symbol_on_title", type="boolean", nullable=false)
+     */
+    private bool $displayCurrencySymbolOnTitle;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="display_currency_symbol_on_children", type="boolean", nullable=false)
+     */
+    private bool $displayCurrencySymbolOnChildren;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="display_description_after_children", type="boolean", nullable=false)
+     */
+    private bool $displayDescriptionAfterChildren;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="display_children_section_after_menuItems", type="boolean", nullable=false)
+     */
+    private bool $displayChildrenSectionAfterMenuItems;
+
+    /**
+     * @var \DateTimeImmutable
+     *
+     * @ORM\Column(name="insert_date_db", type="datetimetz_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $insertDateDb = 'CURRENT_TIMESTAMP';
 
     /**
      * @ORM\ManyToOne(targetEntity=MenuSection::class, inversedBy="hasMenuSection")
      */
-    private $menuSection;
+    private ?MenuSection $menuSection;
 
     /**
      * @ORM\OneToMany(targetEntity=MenuSection::class, mappedBy="menuSection")
@@ -55,10 +104,6 @@ class MenuSection
      */
     private $menus;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $displayCurrencySymbol;
 
     public function __construct()
     {
@@ -121,7 +166,7 @@ class MenuSection
     }
 
     /**
-     * @return Collection|self[]
+     * @return Collection|MenuSection[]
      */
     public function getHasMenuSection(): Collection
     {
@@ -201,15 +246,76 @@ class MenuSection
         return $this;
     }
 
-    public function getDisplayCurrencySymbol(): ?bool
+    public function getDisplayCurrencySymbolOnTitle(): ?bool
     {
-        return $this->displayCurrencySymbol;
+        return $this->displayCurrencySymbolOnTitle;
     }
 
-    public function setDisplayCurrencySymbol(bool $displayCurrencySymbol): self
+    public function setDisplayCurrencySymbolOnTitle(bool $displayCurrencySymbolOnTitle): self
     {
-        $this->displayCurrencySymbol = $displayCurrencySymbol;
+        $this->displayCurrencySymbolOnTitle = $displayCurrencySymbolOnTitle;
 
+        return $this;
+    }
+
+    public function getDisplayCurrencySymbolOnChildren(): ?bool
+    {
+        return $this->displayCurrencySymbolOnChildren;
+    }
+
+    public function setDisplayCurrencySymbolOnChildren(bool $displayCurrencySymbolOnChildren): self
+    {
+        $this->displayCurrencySymbolOnChildren = $displayCurrencySymbolOnChildren;
+
+        return $this;
+    }
+
+    public function getDisplayDescriptionAfterChildren(): ?bool
+    {
+        return $this->displayDescriptionAfterChildren;
+    }
+
+    public function setDisplayDescriptionAfterChildren(bool $displayDescriptionAfterChildren): self
+    {
+        $this->displayDescriptionAfterChildren = $displayDescriptionAfterChildren;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDisplayChildrenSectionAfterMenuItems(): bool
+    {
+        return $this->displayChildrenSectionAfterMenuItems;
+    }
+
+    /**
+     * @param bool $displayChildrenSectionAfterMenuItems
+     * @return MenuSection
+     */
+    public function setDisplayChildrenSectionAfterMenuItems(bool $displayChildrenSectionAfterMenuItems): self
+    {
+        $this->displayChildrenSectionAfterMenuItems = $displayChildrenSectionAfterMenuItems;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getInsertDateDb()
+    {
+        return $this->insertDateDb;
+    }
+
+    /**
+     * @param \DateTimeImmutable $insertDateDb
+     * @return MenuSection
+     */
+    public function setInsertDateDb($insertDateDb): self
+    {
+        $this->insertDateDb = $insertDateDb;
         return $this;
     }
 }

@@ -5,5 +5,5 @@
 {% block body %}
     <h1>{{ restaurant.name }}</h1>
     <div>{{ restaurant.description }}</div>
-    <a href="{{ path('menu_list', {'restaurantName': restaurant.name|url_encode}) }}">{% trans %}menus{% endtrans %}</a>
+    <a href="{{ path('menu_list', {'restaurantName': restaurant.urlSlug|url_encode}) }}">{% trans %}menus{% endtrans %}</a>
 {% endblock %}

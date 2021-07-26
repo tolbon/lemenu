@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -9,32 +10,71 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Restaurant
+ *
+ * @ORM\Table(name="restaurant", uniqueConstraints={@ORM\UniqueConstraint(name="url_slug_UNIQUE", columns={"url_slug"})})
  * @ORM\Entity(repositoryClass=RestaurantRepository::class)
  */
 class Restaurant
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", length=16777215, nullable=false)
      */
     private string $description;
 
     /**
-     * @ORM\Column(type="string", length=5, options={"default" : "EUR"})
+     * @var string
+     *
+     * @ORM\Column(name="currency", type="string", length=5, nullable=false, options={"default"="EUR"})
      * @Assert\Currency
      */
-    private string $currency;
+    private string $currency = 'EUR';
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="activate", type="boolean", nullable=false)
+     */
+    private bool $activate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url_slug", type="string", length=100, nullable=false)
+     */
+    private string $urlSlug;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="address", type="string", length=255, nullable=true)
+     */
+    private ?string $address;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
+     */
+    private ?string $phone;
 
     /**
      * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="restaurant", orphanRemoval=true)
@@ -42,28 +82,14 @@ class Restaurant
     private $hasMenu;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\OneToMany(targetEntity=MenuItem::class, mappedBy="restaurant", orphanRemoval=true)
      */
-    private bool $activate;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $url_slug;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $address;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $phone;
+    private $menuItems;
 
     public function __construct()
     {
         $this->hasMenu = new ArrayCollection();
+        $this->menuItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,12 +177,12 @@ class Restaurant
 
     public function getUrlSlug(): ?string
     {
-        return $this->url_slug;
+        return $this->urlSlug;
     }
 
-    public function setUrlSlug(?string $url_slug): self
+    public function setUrlSlug(string $url_slug): self
     {
-        $this->url_slug = $url_slug;
+        $this->urlSlug = $url_slug;
 
         return $this;
     }
@@ -166,7 +192,7 @@ class Restaurant
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 
@@ -178,10 +204,44 @@ class Restaurant
         return $this->phone;
     }
 
-    public function setPhone(string $phone): self
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
 
         return $this;
     }
+
+    /**
+     * @return Collection|MenuItem[]
+     */
+    public function getMenuItems(): Collection
+    {
+        return $this->menuItems;
+    }
+
+    public function addMenuItem(MenuItem $menuItem): self
+    {
+        if (!$this->menuItems->contains($menuItem)) {
+            $this->menuItems[] = $menuItem;
+            $menuItem->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenuItem(MenuItem $menuItem): self
+    {
+        if ($this->menuItems->removeElement($menuItem)) {
+            // set the owning side to null (unless already changed)
+            if ($menuItem->getRestaurant() === $this) {
+                $menuItem->setRestaurant(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+
 }

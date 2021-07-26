@@ -1,14 +1,22 @@
+{# @controller App:RoutingController:menuPage #}
 {% macro section(menuSection, currency, hNumber) %}
+    {# menuSection \App\Entity\MenuSection[] #}
     <ul>
         {% for section in menuSection %}
             <li>
                 <h{{ hNumber }} id="{{ section.name }}">{{ section.name }}
                     {% if section.price %}
-                        <span>{{ section.price }}</span> <span>{{ currency }}</span>
+                        {% if section.displayCurrencySymbolOnTitle == true %}
+                            <span>{{ menuItem.price|format_currency(currency, {fraction_digit: 2}) }}</span>
+                        {% else %}
+                            <span>{{ section.price|format_number }}</span>
+                        {% endif %}
                     {% endif %}
                 </h{{ hNumber }}>
                 <p>{{ section.description }}</p>
-                {{ _self.section(section.hasMenuSection, currency, (hNumber + 1)) }}
+                {% if section.displayChildrenSectionAfterMenuItems == false %}
+                    {{ _self.section(section.hasMenuSection, currency, (hNumber + 1)) }}
+                {% endif %}
                 <ul>
                     {% for menuItem in section.hasMenuItem %}
                         <li>
@@ -16,6 +24,9 @@
                         </li>
                     {% endfor %}
                 </ul>
+                {% if section.displayChildrenSectionAfterMenuItems == true %}
+                    {{ _self.section(section.hasMenuSection, currency, (hNumber + 1)) }}
+                {% endif %}
             </li>
         {% endfor %}
     </ul>

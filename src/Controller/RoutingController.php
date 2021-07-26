@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DTO\FilterMenuDTO;
+use App\Entity\Menu;
 use App\Entity\Restaurant;
 use App\Form\PropertySearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +32,7 @@ class RoutingController extends AbstractController
 
         $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
 
-        $restaurant = $restaurantRepo->findOneBy(['id' => 1]);
+        $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
 
         $content = $twig->render('restaurant.html.twig',
             [
@@ -53,7 +54,7 @@ class RoutingController extends AbstractController
 
         $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
 
-        $restaurant = $restaurantRepo->findOneBy(['id' => 1]);
+        $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
 
         $content = $twig->render('menuList.html.twig',
             [
@@ -74,12 +75,10 @@ class RoutingController extends AbstractController
      */
     public function menuPage(string $restaurantName, string $menuName, Environment $twig, Request $request) {
         $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
+        $menuRepo = $this->getDoctrine()->getRepository(Menu::class);
 
-        $restaurant = $restaurantRepo->findOneBy(['id' => 1]);
-        $menus = $restaurant->getHasMenu();
-        foreach ($menus as $menu) {
-            $menuSection = $menu->getHasMenuSection();
-        }
+        $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
+        $menu = $menuRepo->findOneBy(['urlSlug' => $menuName, 'restaurant' => $restaurant]);
 
         $filterMenu = new FilterMenuDTO();
         $form = $this->createForm(PropertySearchType::class, $filterMenu);
@@ -93,6 +92,7 @@ class RoutingController extends AbstractController
         $content = $twig->render('menu.html.twig',
         [
             'restaurant' => $restaurant,
+            'menu' => $menu,
             'form' => $form->createView()
         ]);
 

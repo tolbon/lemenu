@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -8,31 +9,49 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * MenuItem
+ *
+ * @ORM\Table(name="menu_item", uniqueConstraints={@ORM\UniqueConstraint(name="UIDX_restaurantId_name", columns={"restaurant_id", "name"})})
  * @ORM\Entity(repositoryClass=MenuItemRepository::class)
  */
 class MenuItem
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
     private string $description;
 
     /**
-     * @ORM\Column(type="float", nullable=true, options={"unsigned"=true})
+     * @var float|null
+     *
+     * @ORM\Column(name="price", type="float", precision=8, scale=2, nullable=true)
      */
     private ?float $price = null;
+
+    /**
+     * @var \DateTimeImmutable
+     *
+     * @ORM\Column(name="insert_date_db", type="datetimetz_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $insertDateDb;
 
     /**
      * @ORM\ManyToMany(targetEntity=MenuSection::class, mappedBy="hasMenuItem")
@@ -50,15 +69,19 @@ class MenuItem
     private $ingredients;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="menuItems")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $displayCurrencySymbol;
+    private $restaurant;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        $this->menuSections = new ArrayCollection();
-        $this->menuItemTags = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
+        $this->menuItemTags = new ArrayCollection();
+        $this->menuSections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -180,14 +203,14 @@ class MenuItem
         return $this;
     }
 
-    public function getDisplayCurrencySymbol(): ?bool
+    public function getRestaurant(): Restaurant
     {
-        return $this->displayCurrencySymbol;
+        return $this->restaurant;
     }
 
-    public function setDisplayCurrencySymbol(bool $displayCurrencySymbol): self
+    public function setRestaurant(Restaurant $restaurant): self
     {
-        $this->displayCurrencySymbol = $displayCurrencySymbol;
+        $this->restaurant = $restaurant;
 
         return $this;
     }
