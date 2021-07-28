@@ -10,27 +10,4 @@
         {% endif %}
     {% endif %}
     <div>{{ menuItem.description }}</div>
-    <div>
-        <h6>DEBUG : Allergens</h6>
-        <ul>
-            {% for tag in menuItem.allergens %}
-                {# tag \App\Entity\MenuItemTag #}
-                <li>{{ tag.name }}</li>
-            {% endfor %}
-        </ul>
-        <h6>DEBUG : Diets</h6>
-        <ul>
-            {% for tag in menuItem.diets %}
-                {# tag \App\Entity\MenuItemTag #}
-                <li>{{ tag.name }}</li>
-            {% endfor %}
-        </ul>
-        <h6>DEBUG : Labels</h6>
-        <ul>
-            {% for tag in menuItem.labels %}
-                {# tag \App\Entity\MenuItemTag #}
-                <li>{{ tag.name }}</li>
-            {% endfor %}
-        </ul>
-    </div>
 </div>

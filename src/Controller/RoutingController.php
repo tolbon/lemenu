@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DTO\FilterMenuDTO;
+use App\Entity\Allergy;
+use App\Entity\Diet;
 use App\Entity\Menu;
 use App\Entity\Restaurant;
 use App\Form\PropertySearchType;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use function Symfony\Component\String\s;
 
 class RoutingController extends AbstractController
 {
@@ -80,6 +83,8 @@ class RoutingController extends AbstractController
     public function menuPage(string $restaurantName, string $menuName, Environment $twig, Request $request) {
         $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
         $menuRepo = $this->getDoctrine()->getRepository(Menu::class);
+        $allergyRepo = $this->getDoctrine()->getRepository(Allergy::class);
+        $dietRepo = $this->getDoctrine()->getRepository(Diet::class);
 
         $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
         $menu = $menuRepo->findMyMenu($restaurant, $menuName);
@@ -92,8 +97,6 @@ class RoutingController extends AbstractController
         {
             $filterMenu = $form->getData();
         }
-
-
 
         $this->filterMenuItem->filter($menu, $filterMenu);
 

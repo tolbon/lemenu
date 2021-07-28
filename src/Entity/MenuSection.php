@@ -94,7 +94,7 @@ class MenuSection
     private $hasMenuSection;
 
     /**
-     * @ORM\ManyToMany(targetEntity=MenuItem::class, inversedBy="menuSections")
+     * @ORM\ManyToMany(targetEntity=MenuItem::class)
      */
     private $hasMenuItem;
 
@@ -104,7 +104,7 @@ class MenuSection
     private $menus;
 
     /**
-     * @ORM\OneToMany(targetEntity=MenuHasMenuSection::class, mappedBy="MenuSection", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=MenuHasMenuSection::class, mappedBy="menuSection", orphanRemoval=true)
      */
     private $menuHasMenuSections;
 
