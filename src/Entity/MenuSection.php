@@ -170,7 +170,7 @@ class MenuSection
     }
 
     /**
-     * @return Collection|MenuSection[]
+     * @return Collection<MenuSection>|MenuSection[]
      */
     public function getHasMenuSection(): Collection
     {
@@ -200,7 +200,7 @@ class MenuSection
     }
 
     /**
-     * @return Collection|MenuItem[]
+     * @return Collection<MenuItem>|MenuItem[]
      */
     public function getHasMenuItem(): Collection
     {
@@ -231,7 +231,7 @@ class MenuSection
     }
 
     /**
-     * @return Collection|Menu[]
+     * @return Collection<Menu>|Menu[]
      */
     public function getMenus(): Collection
     {
@@ -343,7 +343,7 @@ class MenuSection
     }
 
     /**
-     * @return Collection|MenuHasMenuSection[]
+     * @return Collection<MenuHasMenuSection>|MenuHasMenuSection[]
      */
     public function getMenuHasMenuSections(): Collection
     {

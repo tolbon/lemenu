@@ -45,7 +45,9 @@ class MenuRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('m');
 
         /** @var Menu|null $menu */
-        $menu = $qb->innerJoin('m.menuHasMenuSections', 'menuSections')
+        $menu = $qb
+        ->addSelect()
+        ->innerJoin('m.menuHasMenuSections', 'menuSections')
         ->innerJoin('menuSections.hasMenuItem', 'menuItem')
         ->innerJoin('menuItem.', 'menuItem')
         ->andWhere('m.restaurant = :restaurant')
@@ -62,8 +64,10 @@ class MenuRepository extends ServiceEntityRepository
 
         $menuItemIds = [];
         foreach($menu->getMenuHasMenuSections() as $menuSection) {
-            foreach($menuSection->getMenuItem() as $menuItem) {
-                $menuItemIds[] = $menuItem->getId();
+            foreach($menuSection->getMenuSection() as $menuSec) {
+                foreach($menuSec->() as $menuSec) {
+                    $menuItemIds[] = $menuItem->getId();
+                }
             }
         }
 

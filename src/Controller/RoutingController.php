@@ -87,7 +87,21 @@ class RoutingController extends AbstractController
         $dietRepo = $this->getDoctrine()->getRepository(Diet::class);
 
         $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
+        /**
+         * @var Menu|null $menu
+         */
         $menu = $menuRepo->findMyMenu($restaurant, $menuName);
+
+        if ($menu === null) {
+            return null;
+        }
+
+        $menuItemIds = [];
+        foreach($menu->getMenuHasMenuSections() as $menuSection) {
+            foreach($menuSection->getMenuItem() as $menuItem) {
+                $menuItemIds[] = $menuItem->getId();
+            }
+        }
 
         $filterMenu = new FilterMenuDTO();
         $form = $this->createForm(PropertySearchType::class, $filterMenu);
