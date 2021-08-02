@@ -67,11 +67,6 @@ class Menu
     private Restaurant $restaurant;
 
     /**
-     * @ORM\ManyToMany(targetEntity=MenuSection::class, inversedBy="menus")
-     */
-    private $hasMenuSection;
-
-    /**
      * @ORM\OneToMany(targetEntity=MenuHasMenuSection::class, mappedBy="menu", orphanRemoval=true)
      */
     private $menuHasMenuSections;
@@ -81,7 +76,6 @@ class Menu
      */
     public function __construct()
     {
-        $this->hasMenuSection = new ArrayCollection();
         $this->menuHasMenuSections = new ArrayCollection();
     }
 
@@ -208,30 +202,6 @@ class Menu
     public function setRestaurant(Restaurant $restaurant): Menu
     {
         $this->restaurant = $restaurant;
-        return $this;
-    }
-
-    /**
-     * @return Collection|MenuSection[]
-     */
-    public function getHasMenuSection(): Collection
-    {
-        return $this->hasMenuSection;
-    }
-
-    public function addHasMenuSection(MenuSection $hasMenuSection): self
-    {
-        if (!$this->hasMenuSection->contains($hasMenuSection)) {
-            $this->hasMenuSection[] = $hasMenuSection;
-        }
-
-        return $this;
-    }
-
-    public function removeHasMenuSection(MenuSection $hasMenuSection): self
-    {
-        $this->hasMenuSection->removeElement($hasMenuSection);
-
         return $this;
     }
 

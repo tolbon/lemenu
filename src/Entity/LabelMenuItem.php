@@ -6,6 +6,7 @@ use App\Repository\LabelRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="label_menu_item", uniqueConstraints={@ORM\UniqueConstraint(name="UIDX_labelMenuItem_name", columns={"name"})})
  * @ORM\Entity(repositoryClass=LabelRepository::class)
  */
 class LabelMenuItem

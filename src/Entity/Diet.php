@@ -6,6 +6,7 @@ use App\Repository\DietRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="diet", uniqueConstraints={@ORM\UniqueConstraint(name="UIDX_diet_name", columns={"name"})})
  * @ORM\Entity(repositoryClass=DietRepository::class)
  */
 class Diet

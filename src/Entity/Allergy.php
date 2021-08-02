@@ -6,6 +6,7 @@ use App\Repository\AllergyRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="allergy", uniqueConstraints={@ORM\UniqueConstraint(name="UIDX_allergy_name", columns={"name"})})
  * @ORM\Entity(repositoryClass=AllergyRepository::class)
  */
 class Allergy

@@ -41,32 +41,48 @@ class MenuRepository extends ServiceEntityRepository
 
     public function findMyMenu($restaurant, $menuUrlSlug): ?Menu
     {
+        /** @var QueryBuilder $qb */
+        $qb = $this->createQueryBuilder('m');
+
         /** @var Menu|null $menu */
-        $menu = $this->createQueryBuilder('m')
-            ->andWhere('m.restaurant = :restaurant')
-            ->andWhere('m.urlSlug = :urlSlug')
-            ->setParameter('restaurant', $restaurant)
-            ->setParameter('urlSlug', $menuUrlSlug)
-            ->getQuery()
-            ->getOneOrNullResult()
+        $menu = $qb->innerJoin('m.menuHasMenuSections', 'menuSections')
+        ->innerJoin('menuSections.hasMenuItem', 'menuItem')
+        ->innerJoin('menuItem.', 'menuItem')
+        ->andWhere('m.restaurant = :restaurant')
+        ->andWhere('m.urlSlug = :urlSlug')
+        ->setParameter('restaurant', $restaurant)
+        ->setParameter('urlSlug', $menuUrlSlug)
+        ->getQuery()
+        ->getOneOrNullResult()
         ;
 
         if ($menu === null) {
             return null;
         }
 
-        $this->recursiveSection($menu->getHasMenuSection());
+        $menuItemIds = [];
+        foreach($menu->getMenuHasMenuSections() as $menuSection) {
+            foreach($menuSection->getMenuItem() as $menuItem) {
+                $menuItemIds[] = $menuItem->getId();
+            }
+        }
+
+        /** @var QueryBuilder $qb */
+        $qb = $this->createQueryBuilder();
+        $qb->andWhere($qb->expr()->in('menuItemIds', ':menuItemIds'))
+        ->setParameter('menuItemIds', $menuItemIds)
+
+        /** @var QueryBuilder $qb */
+        $qb = $this->createQueryBuilder();
+        $qb->andWhere($qb->expr()->in('menuItemIds', ':menuItemIds'))
+        ->setParameter('menuItemIds', $menuItemIds)
+
+        /** @var QueryBuilder $qb */
+        $qb = $this->createQueryBuilder();
+        $qb->andWhere($qb->expr()->in('menuItemIds', ':menuItemIds'))
+        ->setParameter('menuItemIds', $menuItemIds)
+
 
         return $menu;
-    }
-
-    /**
-     * @param Collection|MenuSection[] $menuSection
-     */
-    private function recursiveSection($menuSection) {
-        foreach ($menuSection as $childSection) {
-            $this->recursiveSection($childSection->getHasMenuSection());
-            $childSection->getHasMenuItem();
-        }
     }
 }
