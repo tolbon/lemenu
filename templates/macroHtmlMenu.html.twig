@@ -1,5 +1,5 @@
 {% macro section(menuSection, currency, hNumber) %}
-    {# menuSection \App\Entity\MenuSection[] #}
+    {# menuSection \App\DTO\Output\MenuSectionOutput[] #}
     <ul>
         {% for section in menuSection %}
             <li>
@@ -14,7 +14,7 @@
                 </h{{ hNumber }}>
                 <p>{{ section.description }}</p>
                 {% if section.displayChildrenSectionAfterMenuItems == false %}
-                    {{ _self.section(section.hasMenuSection, currency, (hNumber + 1)) }}
+                    {{ _self.section(section.menuSections, currency, (hNumber + 1)) }}
                 {% endif %}
                 <ul>
                     {% for menuItem in section.hasMenuItem %}
@@ -24,7 +24,7 @@
                     {% endfor %}
                 </ul>
                 {% if section.displayChildrenSectionAfterMenuItems == true %}
-                    {{ _self.section(section.hasMenuSection, currency, (hNumber + 1)) }}
+                    {{ _self.section(section.menuSections, currency, (hNumber + 1)) }}
                 {% endif %}
             </li>
         {% endfor %}

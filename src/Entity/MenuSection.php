@@ -84,29 +84,19 @@ class MenuSection
     private $insertDateDb = 'CURRENT_TIMESTAMP';
 
     /**
-     * @ORM\ManyToOne(targetEntity=MenuSection::class, inversedBy="hasMenuSection")
-     */
-    private ?MenuSection $menuSection;
-
-    /**
-     * @ORM\OneToMany(targetEntity=MenuSection::class, mappedBy="menuSection")
-     */
-    private $hasMenuSection;
-
-    /**
      * @ORM\ManyToMany(targetEntity=MenuItem::class)
      */
     private $hasMenuItem;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Menu::class, mappedBy="hasMenuSection")
-     */
-    private $menus;
-
-    /**
      * @ORM\OneToMany(targetEntity=MenuHasMenuSection::class, mappedBy="menuSection", orphanRemoval=true)
      */
     private $menuHasMenuSections;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Restaurant::class)
+     */
+    private Restaurant $restaurant;
 
     public function __construct()
     {
@@ -165,36 +155,6 @@ class MenuSection
     public function setMenuSection(?self $menuSection): self
     {
         $this->menuSection = $menuSection;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<MenuSection>|MenuSection[]
-     */
-    public function getHasMenuSection(): Collection
-    {
-        return $this->hasMenuSection;
-    }
-
-    public function addHasMenuSection(self $hasMenuSection): self
-    {
-        if (!$this->hasMenuSection->contains($hasMenuSection)) {
-            $this->hasMenuSection[] = $hasMenuSection;
-            $hasMenuSection->setMenuSection($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHasMenuSection(self $hasMenuSection): self
-    {
-        if ($this->hasMenuSection->removeElement($hasMenuSection)) {
-            // set the owning side to null (unless already changed)
-            if ($hasMenuSection->getMenuSection() === $this) {
-                $hasMenuSection->setMenuSection(null);
-            }
-        }
 
         return $this;
     }

@@ -1,5 +1,5 @@
-{# menuItem \App\Entity\MenuItem #}
-{# section \App\Entity\MenuSection #}
+{# menuItem \App\DTO\Output\MenuItemOutput #}
+{# section \App\\DTO\Output\MenuSectionOutput #}
 <div>
     <div>{{ menuItem.name }}</div>
     {% if menuItem.price %}
@@ -10,4 +10,24 @@
         {% endif %}
     {% endif %}
     <div>{{ menuItem.description }}</div>
+    <div>
+        <h6>DEBUG : Allergens</h6>
+        <ul>
+            {% for tag in menuItem.allergens %}
+                <li>{{ tag.name }}</li>
+            {% endfor %}
+        </ul>
+        <h6>DEBUG : Diets</h6>
+        <ul>
+            {% for tag in menuItem.diets %}
+                <li>{{ tag.name }}</li>
+            {% endfor %}
+        </ul>
+        <h6>DEBUG : Labels</h6>
+        <ul>
+            {% for tag in menuItem.labels %}
+                <li>{{ tag.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>

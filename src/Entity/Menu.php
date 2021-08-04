@@ -206,7 +206,7 @@ class Menu
     }
 
     /**
-     * @return Collection|MenuHasMenuSection[]
+     * @return Collection<MenuHasMenuSection>|MenuHasMenuSection[]
      */
     public function getMenuHasMenuSections(): Collection
     {

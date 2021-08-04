@@ -41,15 +41,12 @@ class MenuRepository extends ServiceEntityRepository
 
     public function findMyMenu($restaurant, $menuUrlSlug): ?Menu
     {
-        /** @var QueryBuilder $qb */
-        $qb = $this->createQueryBuilder('m');
-
         /** @var Menu|null $menu */
-        $menu = $qb
-        ->addSelect()
-        ->innerJoin('m.menuHasMenuSections', 'menuSections')
-        ->innerJoin('menuSections.hasMenuItem', 'menuItem')
-        ->innerJoin('menuItem.', 'menuItem')
+        $menu = $this->createQueryBuilder('m')
+        ->addSelect('menuHasMenuSections', 'menuSection', 'menuItem')
+        ->innerJoin('m.menuHasMenuSections', 'menuHasMenuSections')
+        ->innerJoin('menuHasMenuSections.menuSection', 'menuSection')
+        ->innerJoin('menuSection.hasMenuItem', 'menuItem')
         ->andWhere('m.restaurant = :restaurant')
         ->andWhere('m.urlSlug = :urlSlug')
         ->setParameter('restaurant', $restaurant)
@@ -57,35 +54,6 @@ class MenuRepository extends ServiceEntityRepository
         ->getQuery()
         ->getOneOrNullResult()
         ;
-
-        if ($menu === null) {
-            return null;
-        }
-
-        $menuItemIds = [];
-        foreach($menu->getMenuHasMenuSections() as $menuSection) {
-            foreach($menuSection->getMenuSection() as $menuSec) {
-                foreach($menuSec->() as $menuSec) {
-                    $menuItemIds[] = $menuItem->getId();
-                }
-            }
-        }
-
-        /** @var QueryBuilder $qb */
-        $qb = $this->createQueryBuilder();
-        $qb->andWhere($qb->expr()->in('menuItemIds', ':menuItemIds'))
-        ->setParameter('menuItemIds', $menuItemIds)
-
-        /** @var QueryBuilder $qb */
-        $qb = $this->createQueryBuilder();
-        $qb->andWhere($qb->expr()->in('menuItemIds', ':menuItemIds'))
-        ->setParameter('menuItemIds', $menuItemIds)
-
-        /** @var QueryBuilder $qb */
-        $qb = $this->createQueryBuilder();
-        $qb->andWhere($qb->expr()->in('menuItemIds', ':menuItemIds'))
-        ->setParameter('menuItemIds', $menuItemIds)
-
 
         return $menu;
     }

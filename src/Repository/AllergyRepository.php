@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Allergy;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * @method Allergy|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +49,17 @@ class AllergyRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllAllergyOfIds(array $menuItemIds)
+    {
+        $qb = $this->_em->getConnection()->createQueryBuilder();
+
+        $qb->select('mia.menu_item_id', 'a.id', 'a.name')
+            ->from('menu_item_allergy', 'mia')
+            ->innerJoin('mia', 'allergy', 'a', 'mia.allergy_id = a.id')
+            ->where($qb->expr()->in('mia.menu_item_id', ':menuItemIds'))
+            ->setParameter('menuItemIds', $menuItemIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
+
+        return $qb->execute()->fetchAllAssociativeIndexed();
+    }
 }

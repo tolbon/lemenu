@@ -14,7 +14,9 @@ class FilterMenuItem
     public const REPLACEMENT = ['!', '*', "'", '(', ')', ';', ':', '&', '=', '+', ',', '/', '?', '%', '#', '[', ']', ' '];
 
     public function filter(Menu $menu, FilterMenuDTO $filterMenuDTO) {
-        $this->recursiveSection($menu->getHasMenuSection(), $filterMenuDTO);
+        foreach ($menu->getMenuHasMenuSections() as $hasMenuSection) {
+            $this->recursiveSection($hasMenuSection->get, $filterMenuDTO);
+        }
     }
 
     private function recursiveSection($sections, FilterMenuDTO $filterMenuDTO) {

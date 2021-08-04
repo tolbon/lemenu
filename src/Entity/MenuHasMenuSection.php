@@ -39,6 +39,11 @@ class MenuHasMenuSection
      */
     private $position;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=MenuSection::class)
+     */
+    private $menuSectionParent;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -88,6 +93,18 @@ class MenuHasMenuSection
     public function setPosition(int $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    public function getMenuSectionParent(): ?MenuSection
+    {
+        return $this->menuSectionParent;
+    }
+
+    public function setMenuSectionParent(?MenuSection $parent): self
+    {
+        $this->menuSectionParent = $parent;
 
         return $this;
     }

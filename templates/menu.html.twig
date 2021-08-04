@@ -13,7 +13,7 @@
     <nav>
         Sommaire
         <ul>
-            {% for menuSection in menu.hasMenuSection %}
+            {% for menuSection in menu.menuSections %}
                 <li><a href="#{{ menuSection.name|url_encode }}"> {{ menuSection.name }} </a></li>
             {% endfor %}
         </ul>
@@ -24,7 +24,7 @@
     </div>
     <h1>{{ menu.name }}</h1>
     <div>
-         {{ macroHtmlMenu.section(menu.hasMenuSection, restaurant.currency, 2) }}
+         {{ macroHtmlMenu.section(menu.menuSections, restaurant.currency, 2) }}
     </div>
 {% endblock %}
 

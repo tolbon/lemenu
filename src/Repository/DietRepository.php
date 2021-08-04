@@ -47,4 +47,17 @@ class DietRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllDietOfIds(array $menuItemIds)
+    {
+        $qb = $this->_em->getConnection()->createQueryBuilder();
+
+        $qb->select('mid.menu_item_id', 'd.id', 'd.name')
+            ->from('menu_item_diet', 'mid')
+            ->innerJoin('mid', 'diet', 'd', 'mid.diet_id = d.id')
+            ->where($qb->expr()->in('mid.menu_item_id', ':menuItemIds'))
+            ->setParameter('menuItemIds', $menuItemIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
+
+        return $qb->execute()->fetchAllAssociativeIndexed();
+    }
 }
