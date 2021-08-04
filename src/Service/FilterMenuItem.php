@@ -5,43 +5,45 @@ namespace App\Service;
 
 
 use App\DTO\FilterMenuDTO;
-use App\Entity\Menu;
-use App\Entity\MenuItem;
-use App\Entity\MenuSection;
+use App\DTO\Output\MenuItemOutput;
+use App\DTO\Output\MenuOutput;
+use App\DTO\Output\MenuSectionOutput;
 
 class FilterMenuItem
 {
     public const REPLACEMENT = ['!', '*', "'", '(', ')', ';', ':', '&', '=', '+', ',', '/', '?', '%', '#', '[', ']', ' '];
 
-    public function filter(Menu $menu, FilterMenuDTO $filterMenuDTO) {
-        foreach ($menu->getMenuHasMenuSections() as $hasMenuSection) {
-            $this->recursiveSection($hasMenuSection->get, $filterMenuDTO);
-        }
+    public function filter(MenuOutput $menu, FilterMenuDTO $filterMenuDTO) {
+        $this->recursiveSection($menu->menuSections, $filterMenuDTO);
     }
 
-    private function recursiveSection($sections, FilterMenuDTO $filterMenuDTO) {
-        /** @var MenuSection $section */
-        foreach ($sections as $section) {
-            $this->recursiveSection($section->getHasMenuSection(), $filterMenuDTO);
+    /**
+     * @param MenuSectionOutput[] $sections
+     * @param FilterMenuDTO $filterMenuDTO
+     */
+    private function recursiveSection(array $sections, FilterMenuDTO $filterMenuDTO) {
 
-            $section->replaceHasMenuItem($section->getHasMenuItem()->filter(static function ($item) use ($filterMenuDTO) {
-                /** @var MenuItem $item */
-                foreach ($item->getAllergens() as $menuItemTag) {
-                    if (in_array($menuItemTag->getName(), $filterMenuDTO->allergy, true) === true) {
+        foreach ($sections as $section) {
+            $this->recursiveSection($section->menuSections, $filterMenuDTO);
+
+            $section->hasMenuItem = array_filter($section->hasMenuItem, static function ($item) use ($filterMenuDTO) {
+                /** @var MenuItemOutput $item */
+                foreach ($item->allergens as $menuItemAllergen) {
+                    if (in_array($menuItemAllergen->getName(), $filterMenuDTO->allergy, true) === true) {
                         return false;
                     }
                 }
 
                 //FIXME les preference alimentaire accepte ou non certain aliments sans gluten je ne veux pas de gluten mais Hallal je veux que la viande abbatu hallal
-                /** @var MenuItem $item */
-                foreach ($item->getDiets() as $menuItemTag) {
-                    if (in_array($menuItemTag->getName(), $filterMenuDTO->diet, true) === true) {
+                /** @var MenuItemOutput $item */
+                foreach ($item->diets as $menuItemDiet) {
+                    if (in_array($menuItemDiet->getName(), $filterMenuDTO->diet, true) === true) {
                         return true;
                     }
                 }
 
                 return true;
-            }));
+            });
         }
 
     }

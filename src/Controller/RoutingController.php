@@ -43,8 +43,12 @@ class RoutingController extends AbstractController
     public function restaurantPage(string $restaurantName, Environment $twig) {
 
         $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
-
         $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
+
+        if ($restaurant === null) {
+            //404
+            return new Response(null);
+        }
 
         $content = $twig->render('restaurant.html.twig',
             [
@@ -65,8 +69,12 @@ class RoutingController extends AbstractController
     public function menuList(string $restaurantName, Environment $twig) {
 
         $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
-
         $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
+
+        if ($restaurant === null) {
+            //404
+            return new Response(null);
+        }
 
         $content = $twig->render('menuList.html.twig',
             [
@@ -105,7 +113,7 @@ class RoutingController extends AbstractController
             $filterMenu = $form->getData();
         }
 
-        //$this->filterMenuItem->filter($menu, $filterMenu);
+        $this->filterMenuItem->filter($menu, $filterMenu);
 
         $content = $twig->render('menu.html.twig',
         [
