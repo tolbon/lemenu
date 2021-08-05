@@ -1,14 +1,9 @@
-{# menuItem \App\DTO\Output\MenuItemOutput #}
-{# section \App\\DTO\Output\MenuSectionOutput #}
+{% import "components/priceMacro.html.twig" as macroPrice %}
 <div>
+    {# menuItem \App\DTO\Output\MenuItemOutput #}
+    {# section \App\\DTO\Output\MenuSectionOutput #}
     <div>{{ menuItem.name }}</div>
-    {% if menuItem.price %}
-        {% if section.displayCurrencySymbolOnChildren == true %}
-            <span>{{ menuItem.price|format_currency(currency, {fraction_digit: 2}) }}</span>
-        {% else %}
-            <span>{{ menuItem.price|format_number }}</span>
-        {% endif %}
-    {% endif %}
+    {{ macroPrice.displayMenuPrice(section.displayCurrencySymbolOnChildren, currency, menuItem.price1, menuItem.price2, menuItem.price3) }}
     <div>{{ menuItem.description }}</div>
     <div>
         <h6>DEBUG : Allergens</h6>

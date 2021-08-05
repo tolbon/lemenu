@@ -22,12 +22,12 @@ class TransformService
 
         $menuHasMenuSections = $menu->getMenuHasMenuSections()->toArray();
 
-        $menuOut->menuSections = $this->transformMenuSectionOrdered($menuHasMenuSections, null, $allergies, $diets);
+        $menuOut->menuSections = $this->transformMenuSectionOrdered($menuHasMenuSections, 0, $allergies, $diets);
 
         return $menuOut;
     }
 
-    private function transformMenuSectionOrdered($menuHasMenuSections, ?int $sectionParentId, $allergies = [], $diets = []) {
+    private function transformMenuSectionOrdered($menuHasMenuSections, int $sectionParentId, $allergies = [], $diets = []) {
 
         $menuHasMenuSectionFilter = array_filter($menuHasMenuSections, static function ($hasMenuSection) use ($sectionParentId) {
             $menuSectionParent = $hasMenuSection->getMenuSectionParent();
@@ -53,7 +53,13 @@ class TransformService
             $menuSectionOutput->id = $menuSec->getId();
             $menuSectionOutput->name = $menuSec->getName();
             $menuSectionOutput->description = $menuSec->getDescription();
-            $menuSectionOutput->price = $menuSec->getPrice();
+            $menuSectionOutput->price1 = $menuSec->getPrice1();
+            $menuSectionOutput->price2 = $menuSec->getPrice2();
+            $menuSectionOutput->price3 = $menuSec->getPrice3();
+            $menuSectionOutput->titlePrice1 = $menuSec->getTitlePrice1();
+            $menuSectionOutput->titlePrice2 = $menuSec->getTitlePrice2();
+            $menuSectionOutput->titlePrice3 = $menuSec->getTitlePrice3();
+
             $menuSectionOutput->displayCurrencySymbolOnTitle = $menuSec->getDisplayCurrencySymbolOnTitle();
             $menuSectionOutput->displayCurrencySymbolOnChildren = $menuSec->getDisplayCurrencySymbolOnChildren();
             $menuSectionOutput->displayDescriptionAfterChildren = $menuSec->getDisplayDescriptionAfterChildren();
@@ -64,7 +70,9 @@ class TransformService
                 $menuItemOut->id = $menuItemEntity->getId();
                 $menuItemOut->name = $menuItemEntity->getName();
                 $menuItemOut->description = $menuItemEntity->getDescription();
-                $menuItemOut->price = $menuItemEntity->getPrice();
+                $menuItemOut->price1 = $menuItemEntity->getPrice1();
+                $menuItemOut->price2 = $menuItemEntity->getPrice2();
+                $menuItemOut->price3 = $menuItemEntity->getPrice3();
 
                 $menuItemOut->allergens = $allergies[$menuItemEntity->getId()] ?? [];
                 $menuItemOut->diets = $diets[$menuItemEntity->getId()] ?? [];

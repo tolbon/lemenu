@@ -9,6 +9,7 @@ use App\Entity\Allergy;
 use App\Entity\Diet;
 use App\Entity\Menu;
 use App\Entity\Restaurant;
+use App\Entity\User;
 use App\Form\PropertySearchType;
 use App\Service\FilterMenuItem;
 use App\Service\TransformService;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 use function Symfony\Component\String\s;
 
@@ -105,6 +107,19 @@ class RoutingController extends AbstractController
         $menu = $this->findMyMenu($restaurant, $menuName);
 
         $filterMenu = new FilterMenuDTO();
+
+        $user = $this->getUser();
+        if ($user !== null) {
+            $userRepo = $this->getDoctrine()->getRepository(User::class);
+            $userEntity = $userRepo->findOneBy(['email' => $user->getUserIdentifier()]);
+            $filterMenu->diet = array_map(function ($d) {
+                    return $d->getName();
+            }, $userEntity->getDiets()->toArray());
+            $filterMenu->allergy = array_map(function ($a) {
+                return $a->getName();
+            }, $userEntity->getAllergies()->toArray());
+        }
+
         $form = $this->createForm(PropertySearchType::class, $filterMenu);
 
         $form->handleRequest($request);

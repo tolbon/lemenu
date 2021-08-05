@@ -42,9 +42,21 @@ class MenuItem
     /**
      * @var float|null
      *
-     * @ORM\Column(name="price", type="float", precision=8, scale=2, nullable=true)
+     * @ORM\Column(name="price1", type="float", precision=8, scale=2, nullable=true)
      */
-    private ?float $price = null;
+    private ?float $price1 = null;
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="price2", type="float", precision=8, scale=2, nullable=true)
+     */
+    private ?float $price2 = null;
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="price3", type="float", precision=8, scale=2, nullable=true)
+     */
+    private ?float $price3 = null;
 
     /**
      * @var \DateTimeImmutable
@@ -119,14 +131,38 @@ class MenuItem
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPrice1(): ?float
     {
-        return $this->price;
+        return $this->price1;
     }
 
-    public function setPrice(float $price): self
+    public function getPrice2(): ?float
     {
-        $this->price = $price;
+        return $this->price2;
+    }
+
+    public function getPrice3(): ?float
+    {
+        return $this->price3;
+    }
+
+    public function setPrice1(?float $price): self
+    {
+        $this->price1 = $price;
+
+        return $this;
+    }
+
+    public function setPrice2(?float $price): self
+    {
+        $this->price2 = $price;
+
+        return $this;
+    }
+
+    public function setPrice3(?float $price): self
+    {
+        $this->price3 = $price;
 
         return $this;
     }

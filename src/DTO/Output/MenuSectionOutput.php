@@ -12,7 +12,13 @@ final class MenuSectionOutput
 
     public string $description;
 
-    public ?float $price;
+    public ?float $price1;
+    public ?float $price2;
+    public ?float $price3;
+
+    public ?string $titlePrice1;
+    public ?string $titlePrice2;
+    public ?string $titlePrice3;
 
     public bool $displayCurrencySymbolOnTitle;
 

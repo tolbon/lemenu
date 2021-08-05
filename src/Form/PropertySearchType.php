@@ -51,12 +51,14 @@ class PropertySearchType extends AbstractType
                 'label' => 'diet',
                 'required' => false,
                 'choices' => $diets,
-                'multiple' => true])
+                'multiple' => true,
+                'expanded' => true])
             ->add('allergy', ChoiceType::class, [
                 'label' => 'allergy',
                 'required' => false,
                 'choices' => $allergies,
                 'multiple' => true,
+                'expanded' => true
             ])
             ->add('filter', SubmitType::class, ['label' => 'filter'])
         ;

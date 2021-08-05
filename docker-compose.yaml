@@ -10,19 +10,16 @@ services:
               source: .
               target: /var/www/html/
         ports:
-            - 8080:80
+            - 8090:80
 
     keycloak:
-        image: quay.io/keycloak/keycloak:14.0.0
-        volumes:
-            - ~/Projects/tmp/mysql57_dblemenu:/var/lib/mysql
-            - ./docker/mysql/config:/etc/mysql/conf.d
+        image: quay.io/keycloak/keycloak:15.0.0
         ports:
-            - "8090:8080"
+            - "8080:8080"
+            - "8433:8433"
         environment:
             - KEYCLOAK_USER=admin
             - KEYCLOAK_PASSWORD=admin
-
 
     mysql57:
         build:

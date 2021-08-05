@@ -1,0 +1,27 @@
+{% macro displayMenuPrice(displayCurrency, currency, price1, price2, price3) %}
+    {% if price1 %}
+        {% if displayCurrency == true %}
+            <span>{{ price1|format_currency(currency, {fraction_digit: 2}) }}</span>
+        {% else %}
+            <span>{{ price1|format_number }}</span>
+        {% endif %}
+    {% elseif price2 or price3 %}
+        <span></span>
+    {% endif %}
+    {% if price2 %}
+        {% if displayCurrency == true %}
+            <span>{{ price2|format_currency(currency, {fraction_digit: 2}) }}</span>
+        {% else %}
+            <span>{{ price2|format_number }}</span>
+        {% endif %}
+    {% elseif price3 %}
+        <span></span>
+    {% endif %}
+    {% if price3 %}
+        {% if displayCurrency == true %}
+            <span>{{ price3|format_currency(currency, {fraction_digit: 2}) }}</span>
+        {% else %}
+            <span>{{ price3|format_number }}</span>
+        {% endif %}
+    {% endif %}
+{% endmacro %}

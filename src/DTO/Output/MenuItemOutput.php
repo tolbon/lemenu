@@ -16,7 +16,10 @@ final class MenuItemOutput
 
     public string $description;
 
-    public ?float $price = null;
+    public ?float $price1;
+    public ?float $price2;
+    public ?float $price3;
+
     /** @var array<LabelMenuItem> */
     public array $labels;
     /** @var array<Allergy> */

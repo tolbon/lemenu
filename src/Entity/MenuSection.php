@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MenuSection
  *
- * @ORM\Table(name="menu_section", indexes={@ORM\Index(name="IDX_A5A86751F98E57A8", columns={"menu_section_id"})})
+ * @ORM\Table(name="menu_section")
  * @ORM\Entity(repositoryClass=MenuSectionRepository::class)
  */
 class MenuSection
@@ -42,11 +42,42 @@ class MenuSection
     private string $description;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="title_price1", type="string", length=20, nullable=true)
+     */
+    private ?string $titlePrice1;
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="title_price2", type="string", length=20, nullable=true)
+     */
+    private ?string $titlePrice2;
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="title_price3", type="string", length=20, nullable=true)
+     */
+    private ?string $titlePrice3;
+
+    /**
      * @var float|null
      *
-     * @ORM\Column(name="price", type="float", precision=8, scale=2, nullable=true)
+     * @ORM\Column(name="price1", type="float", precision=8, scale=2, nullable=true)
      */
-    private ?float $price;
+    private ?float $price1;
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="price2", type="float", precision=8, scale=2, nullable=true)
+     */
+    private ?float $price2;
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="price3", type="float", precision=8, scale=2, nullable=true)
+     */
+    private ?float $price3;
 
     /**
      * @var bool
@@ -98,6 +129,7 @@ class MenuSection
      */
     private Restaurant $restaurant;
 
+
     public function __construct()
     {
         $this->hasMenuSection = new ArrayCollection();
@@ -135,14 +167,38 @@ class MenuSection
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPrice1(): ?float
     {
-        return $this->price;
+        return $this->price1;
     }
 
-    public function setPrice(float $price): self
+    public function getPrice2(): ?float
     {
-        $this->price = $price;
+        return $this->price2;
+    }
+
+    public function getPrice3(): ?float
+    {
+        return $this->price3;
+    }
+
+    public function setPrice1(?float $price): self
+    {
+        $this->price1 = $price;
+
+        return $this;
+    }
+
+    public function setPrice2(?float $price): self
+    {
+        $this->price2 = $price;
+
+        return $this;
+    }
+
+    public function setPrice3(?float $price): self
+    {
+        $this->price3 = $price;
 
         return $this;
     }
@@ -329,6 +385,78 @@ class MenuSection
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitlePrice1(): ?string
+    {
+        return $this->titlePrice1;
+    }
+
+    /**
+     * @param string|null $titlePrice1
+     * @return MenuSection
+     */
+    public function setTitlePrice1(?string $titlePrice1): MenuSection
+    {
+        $this->titlePrice1 = $titlePrice1;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitlePrice2(): ?string
+    {
+        return $this->titlePrice2;
+    }
+
+    /**
+     * @param string|null $titlePrice2
+     * @return MenuSection
+     */
+    public function setTitlePrice2(?string $titlePrice2): MenuSection
+    {
+        $this->titlePrice2 = $titlePrice2;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitlePrice3(): ?string
+    {
+        return $this->titlePrice3;
+    }
+
+    /**
+     * @param string|null $titlePrice3
+     * @return MenuSection
+     */
+    public function setTitlePrice3(?string $titlePrice3): MenuSection
+    {
+        $this->titlePrice3 = $titlePrice3;
+        return $this;
+    }
+
+    /**
+     * @return Restaurant
+     */
+    public function getRestaurant(): Restaurant
+    {
+        return $this->restaurant;
+    }
+
+    /**
+     * @param Restaurant $restaurant
+     * @return MenuSection
+     */
+    public function setRestaurant(Restaurant $restaurant): MenuSection
+    {
+        $this->restaurant = $restaurant;
         return $this;
     }
 }
