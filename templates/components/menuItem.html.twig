@@ -6,22 +6,23 @@
     {{ macroPrice.displayMenuPrice(section.displayCurrencySymbolOnChildren, currency, menuItem.price1, menuItem.price2, menuItem.price3) }}
     <div>{{ menuItem.description }}</div>
     <div>
+        //FIXME
         <h6>DEBUG : Allergens</h6>
         <ul>
             {% for tag in menuItem.allergens %}
-                <li>{{ tag.name }}</li>
+                <li>{{ tag }}</li>
             {% endfor %}
         </ul>
         <h6>DEBUG : Diets</h6>
         <ul>
             {% for tag in menuItem.diets %}
-                <li>{{ tag.name }}</li>
+                <li>{{ tag }}</li>
             {% endfor %}
         </ul>
         <h6>DEBUG : Labels</h6>
         <ul>
             {% for tag in menuItem.labels %}
-                <li>{{ tag.name }}</li>
+                <li>{{ tag }}</li>
             {% endfor %}
         </ul>
     </div>

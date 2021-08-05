@@ -29,7 +29,8 @@ class FilterMenuItem
             $section->hasMenuItem = array_filter($section->hasMenuItem, static function ($item) use ($filterMenuDTO) {
                 /** @var MenuItemOutput $item */
                 foreach ($item->allergens as $menuItemAllergen) {
-                    if (in_array($menuItemAllergen->getName(), $filterMenuDTO->allergy, true) === true) {
+                    //FIXME
+                    if (in_array($menuItemAllergen, $filterMenuDTO->allergy, true) === true) {
                         return false;
                     }
                 }
@@ -37,7 +38,8 @@ class FilterMenuItem
                 //FIXME les preference alimentaire accepte ou non certain aliments sans gluten je ne veux pas de gluten mais Hallal je veux que la viande abbatu hallal
                 /** @var MenuItemOutput $item */
                 foreach ($item->diets as $menuItemDiet) {
-                    if (in_array($menuItemDiet->getName(), $filterMenuDTO->diet, true) === true) {
+                    //FIXME
+                    if (in_array($menuItemDiet, $filterMenuDTO->diet, true) === true) {
                         return true;
                     }
                 }
