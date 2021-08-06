@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -7,95 +6,63 @@ use App\Repository\RestaurantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Restaurant
- *
- * @ORM\Table(name="restaurant", uniqueConstraints={@ORM\UniqueConstraint(name="url_slug_UNIQUE", columns={"url_slug"})})
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_75DF1DF98E57", columns={"url_slug"})})
  * @ORM\Entity(repositoryClass=RestaurantRepository::class)
  */
 class Restaurant
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=16777215, nullable=false)
+     * @ORM\Column(type="string", length=1024)
      */
-    private string $description;
+    private $description;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="currency", type="string", length=5, nullable=false, options={"default"="EUR"})
-     * @Assert\Currency
+     * @ORM\Column(type="string", length=3)
      */
-    private string $currency = 'EUR';
+    private $currency;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="activate", type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      */
-    private bool $activate;
+    private $activate;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="url_slug", type="string", length=100, nullable=false)
+     * @ORM\Column(type="ascii_string")
      */
-    private string $urlSlug;
+    private $urlSlug;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="address", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $address;
+    private $address;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $phone;
+    private $phone;
 
     /**
      * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="restaurant", orphanRemoval=true)
      */
-    private $hasMenu;
-
-    /**
-     * @ORM\OneToMany(targetEntity=MenuItem::class, mappedBy="restaurant", orphanRemoval=true)
-     */
-    private $menuItems;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=LabelRestaurant::class)
-     */
-    private $restaurantLabels;
+    private $menus;
 
     public function __construct()
     {
-        $this->hasMenu = new ArrayCollection();
-        $this->menuItems = new ArrayCollection();
-        $this->restaurantLabels = new ArrayCollection();
+        $this->menu2s = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,37 +106,7 @@ class Restaurant
         return $this;
     }
 
-    /**
-     * @return Collection|Menu[]
-     */
-    public function getHasMenu(): Collection
-    {
-        return $this->hasMenu;
-    }
-
-    public function addHasMenu(Menu $hasMenu): self
-    {
-        if (!$this->hasMenu->contains($hasMenu)) {
-            $this->hasMenu[] = $hasMenu;
-            $hasMenu->setRestaurant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHasMenu(Menu $hasMenu): self
-    {
-        if ($this->hasMenu->removeElement($hasMenu)) {
-            // set the owning side to null (unless already changed)
-            if ($hasMenu->getRestaurant() === $this) {
-                $hasMenu->setRestaurant(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function isActivate(): ?bool
+    public function getActivate(): ?bool
     {
         return $this->activate;
     }
@@ -181,14 +118,14 @@ class Restaurant
         return $this;
     }
 
-    public function getUrlSlug(): ?string
+    public function getUrlSlug()
     {
         return $this->urlSlug;
     }
 
-    public function setUrlSlug(string $url_slug): self
+    public function setUrlSlug($urlSlug): self
     {
-        $this->urlSlug = $url_slug;
+        $this->urlSlug = $urlSlug;
 
         return $this;
     }
@@ -218,60 +155,32 @@ class Restaurant
     }
 
     /**
-     * @return Collection|MenuItem[]
+     * @return Collection|Menu[]
      */
-    public function getMenuItems(): Collection
+    public function getMenus(): Collection
     {
-        return $this->menuItems;
+        return $this->menu2s;
     }
 
-    public function addMenuItem(MenuItem $menuItem): self
+    public function addMenu(Menu $menu): self
     {
-        if (!$this->menuItems->contains($menuItem)) {
-            $this->menuItems[] = $menuItem;
-            $menuItem->setRestaurant($this);
+        if (!$this->menu2s->contains($menu)) {
+            $this->menu2s[] = $menu;
+            $menu->setRestaurant($this);
         }
 
         return $this;
     }
 
-    public function removeMenuItem(MenuItem $menuItem): self
+    public function removeMenu(Menu $menu): self
     {
-        if ($this->menuItems->removeElement($menuItem)) {
+        if ($this->menu2s->removeElement($menu)) {
             // set the owning side to null (unless already changed)
-            if ($menuItem->getRestaurant() === $this) {
-                $menuItem->setRestaurant(null);
+            if ($menu->getRestaurant() === $this) {
+                $menu->setRestaurant(null);
             }
         }
 
         return $this;
     }
-
-    /**
-     * @return Collection|LabelRestaurant[]
-     */
-    public function getRestaurantLabels(): Collection
-    {
-        return $this->restaurantLabels;
-    }
-
-    public function addRestaurantLabel(LabelRestaurant $restaurantLabel): self
-    {
-        if (!$this->restaurantLabels->contains($restaurantLabel)) {
-            $this->restaurantLabels[] = $restaurantLabel;
-        }
-
-        return $this;
-    }
-
-    public function removeRestaurantLabel(LabelRestaurant $restaurantLabel): self
-    {
-        $this->restaurantLabels->removeElement($restaurantLabel);
-
-        return $this;
-    }
-
-
-
-
 }

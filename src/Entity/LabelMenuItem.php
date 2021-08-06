@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\LabelRepository;
+use App\Repository\LabelMenuItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="label_menu_item", uniqueConstraints={@ORM\UniqueConstraint(name="UIDX_labelMenuItem_name", columns={"name"})})
- * @ORM\Entity(repositoryClass=LabelRepository::class)
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_8D03E638E7927C74", columns={"name"})})
+ * @ORM\Entity(repositoryClass=LabelMenuItemRepository::class)
  */
 class LabelMenuItem
 {

@@ -1,106 +1,60 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Repository\MenuItemRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MenuItem
- *
- * @ORM\Table(name="menu_item", uniqueConstraints={@ORM\UniqueConstraint(name="UIDX_restaurantId_name", columns={"restaurant_id", "name"})})
+ * @ORM\Table(uniqueConstraints={
+ *  @ORM\UniqueConstraint(name="UNIQ_8D03E146D7927704", columns={"restaurant_id", "name"})},
+ * )
  * @ORM\Entity(repositoryClass=MenuItemRepository::class)
  */
 class MenuItem
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $description;
+    private $description;
 
     /**
-     * @var float|null
-     *
-     * @ORM\Column(name="price1", type="float", precision=8, scale=2, nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
-    private ?float $price1 = null;
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="price2", type="float", precision=8, scale=2, nullable=true)
-     */
-    private ?float $price2 = null;
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="price3", type="float", precision=8, scale=2, nullable=true)
-     */
-    private ?float $price3 = null;
+    private $price1;
 
     /**
-     * @var \DateTimeImmutable
-     *
-     * @ORM\Column(name="insert_date_db", type="datetimetz_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="float", nullable=true)
      */
-    private $insertDateDb;
+    private $price2;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="menuItems")
+     * @ORM\Column(type="float", nullable=true)
      */
-    private $ingredients;
+    private $price3;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="menuItems")
+     * @ORM\ManyToOne(targetEntity=Restaurant::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $restaurant;
 
     /**
-     * @ORM\ManyToMany(targetEntity=LabelMenuItem::class)
+     * @ORM\Column(type="datetime_immutable")
      */
-    private $labels;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Allergy::class)
-     */
-    private $allergens;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Diet::class)
-     */
-    private $diets;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->ingredients = new ArrayCollection();
-        $this->labels = new ArrayCollection();
-        $this->allergens = new ArrayCollection();
-        $this->diets = new ArrayCollection();
-    }
+    private $insertDateAt;
 
     public function getId(): ?int
     {
@@ -124,7 +78,7 @@ class MenuItem
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -136,9 +90,23 @@ class MenuItem
         return $this->price1;
     }
 
+    public function setPrice1(?float $price1): self
+    {
+        $this->price1 = $price1;
+
+        return $this;
+    }
+
     public function getPrice2(): ?float
     {
         return $this->price2;
+    }
+
+    public function setPrice2(?float $price2): self
+    {
+        $this->price2 = $price2;
+
+        return $this;
     }
 
     public function getPrice3(): ?float
@@ -146,131 +114,33 @@ class MenuItem
         return $this->price3;
     }
 
-    public function setPrice1(?float $price): self
+    public function setPrice3(?float $price3): self
     {
-        $this->price1 = $price;
+        $this->price3 = $price3;
 
         return $this;
     }
 
-    public function setPrice2(?float $price): self
-    {
-        $this->price2 = $price;
-
-        return $this;
-    }
-
-    public function setPrice3(?float $price): self
-    {
-        $this->price3 = $price;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Ingredient[]
-     */
-    public function getIngredients(): Collection
-    {
-        return $this->ingredients;
-    }
-
-    public function addIngredient(Ingredient $ingredient): self
-    {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-        }
-
-        return $this;
-    }
-
-    public function removeIngredient(Ingredient $ingredient): self
-    {
-        $this->ingredients->removeElement($ingredient);
-
-        return $this;
-    }
-
-    public function getRestaurant(): Restaurant
+    public function getRestaurant(): ?Restaurant
     {
         return $this->restaurant;
     }
 
-    public function setRestaurant(Restaurant $restaurant): self
+    public function setRestaurant(?Restaurant $restaurant): self
     {
         $this->restaurant = $restaurant;
 
         return $this;
     }
 
-    /**
-     * @return Collection|LabelMenuItem[]
-     */
-    public function getLabels(): Collection
+    public function getInsertDateAt(): ?\DateTimeImmutable
     {
-        return $this->labels;
+        return $this->insertDateAt;
     }
 
-    public function addLabel(LabelMenuItem $label): self
+    public function setInsertDateAt(\DateTimeImmutable $insertDateAt): self
     {
-        if (!$this->labels->contains($label)) {
-            $this->labels[] = $label;
-        }
-
-        return $this;
-    }
-
-    public function removeLabel(LabelMenuItem $label): self
-    {
-        $this->labels->removeElement($label);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Allergy[]
-     */
-    public function getAllergens(): Collection
-    {
-        return $this->allergens;
-    }
-
-    public function addAllergen(Allergy $allergen): self
-    {
-        if (!$this->allergens->contains($allergen)) {
-            $this->allergens[] = $allergen;
-        }
-
-        return $this;
-    }
-
-    public function removeAllergen(Allergy $allergen): self
-    {
-        $this->allergens->removeElement($allergen);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Diet[]
-     */
-    public function getDiets(): Collection
-    {
-        return $this->diets;
-    }
-
-    public function addDiet(Diet $diet): self
-    {
-        if (!$this->diets->contains($diet)) {
-            $this->diets[] = $diet;
-        }
-
-        return $this;
-    }
-
-    public function removeDiet(Diet $diet): self
-    {
-        $this->diets->removeElement($diet);
+        $this->insertDateAt = $insertDateAt;
 
         return $this;
     }

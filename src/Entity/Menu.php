@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -9,231 +8,166 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Menu
- *
- * @ORM\Table(name="menu", uniqueConstraints={@ORM\UniqueConstraint(name="UIDX_restaurantId_name", columns={"restaurant_id", "name"})}, indexes={@ORM\Index(name="IDX_7D053A93B1E7706E", columns={"restaurant_id"})})
+ * @ORM\Table(uniqueConstraints={
+ *  @ORM\UniqueConstraint(name="UNIQ_8D03E649E7927704", columns={"restaurant_id", "name"}), 
+ *  @ORM\UniqueConstraint(name="UNIQ_8E03F6E506817D74", columns={"restaurant_id", "url_slug", "activate"})
+ * })
  * @ORM\Entity(repositoryClass=MenuRepository::class)
  */
 class Menu
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private string $description;
+    private $description;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="activate", type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      */
-    private bool $activate;
+    private $activate;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="url_slug", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private string $urlSlug;
+    private $urlSlug;
 
     /**
-     * @var \DateTimeImmutable
-     *
-     * @ORM\Column(name="insert_date_db", type="datetimetz_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="datetime_immutable")
      */
-    private $insertDateDb = 'CURRENT_TIMESTAMP';
+    private $insertDateAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="hasMenu")
+     * @ORM\OneToMany(targetEntity=MenuMenuSection::class, mappedBy="menu", orphanRemoval=true)
+     */
+    private $menuMenuSections;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="menu2s")
      * @ORM\JoinColumn(nullable=false)
      */
-    private Restaurant $restaurant;
+    private $restaurant;
 
-    /**
-     * @ORM\OneToMany(targetEntity=MenuHasMenuSection::class, mappedBy="menu", orphanRemoval=true)
-     */
-    private $menuHasMenuSections;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        $this->menuHasMenuSections = new ArrayCollection();
+        $this->menuMenuSections = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Menu
-     */
-    public function setId(int $id): Menu
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return Menu
-     */
-    public function setName(string $name): Menu
+    public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     * @return Menu
-     */
-    public function setDescription(string $description): Menu
+    public function setDescription(string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isActivate(): bool
+    public function getActivate(): ?bool
     {
         return $this->activate;
     }
 
-    /**
-     * @param bool $activate
-     * @return Menu
-     */
-    public function setActivate(bool $activate): Menu
+    public function setActivate(bool $activate): self
     {
         $this->activate = $activate;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUrlSlug(): string
+    public function getUrlSlug(): ?string
     {
         return $this->urlSlug;
     }
 
-    /**
-     * @param string $urlSlug
-     * @return Menu
-     */
-    public function setUrlSlug(string $urlSlug): Menu
+    public function setUrlSlug(string $urlSlug): self
     {
         $this->urlSlug = $urlSlug;
+
+        return $this;
+    }
+
+    public function getInsertDateAt(): ?\DateTimeImmutable
+    {
+        return $this->insertDateAt;
+    }
+
+    public function setInsertDateAt(\DateTimeImmutable $insertDateAt): self
+    {
+        $this->insertDateAt = $insertDateAt;
+
         return $this;
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return Collection|MenuMenuSection[]
      */
-    public function getInsertDateDb()
+    public function getMenuMenuSections(): Collection
     {
-        return $this->insertDateDb;
+        return $this->menuMenuSections;
     }
 
-    /**
-     * @param \DateTimeImmutable $insertDateDb
-     * @return Menu
-     */
-    public function setInsertDateDb($insertDateDb)
+    public function addMenuMenuSection(MenuMenuSection $menuMenuSection): self
     {
-        $this->insertDateDb = $insertDateDb;
-        return $this;
-    }
-
-    /**
-     * @return Restaurant
-     */
-    public function getRestaurant(): Restaurant
-    {
-        return $this->restaurant;
-    }
-
-    /**
-     * @param Restaurant $restaurant
-     * @return Menu
-     */
-    public function setRestaurant(Restaurant $restaurant): Menu
-    {
-        $this->restaurant = $restaurant;
-        return $this;
-    }
-
-    /**
-     * @return Collection<MenuHasMenuSection>|MenuHasMenuSection[]
-     */
-    public function getMenuHasMenuSections(): Collection
-    {
-        return $this->menuHasMenuSections;
-    }
-
-    public function addMenuHasMenuSection(MenuHasMenuSection $menuHasMenuSection): self
-    {
-        if (!$this->menuHasMenuSections->contains($menuHasMenuSection)) {
-            $this->menuHasMenuSections[] = $menuHasMenuSection;
-            $menuHasMenuSection->setMenu($this);
+        if (!$this->menuMenuSections->contains($menuMenuSection)) {
+            $this->menuMenuSections[] = $menuMenuSection;
+            $menuMenuSection->setMenu($this);
         }
 
         return $this;
     }
 
-    public function removeMenuHasMenuSection(MenuHasMenuSection $menuHasMenuSection): self
+    public function removeMenuMenuSection(MenuMenuSection $menuMenuSection): self
     {
-        if ($this->menuHasMenuSections->removeElement($menuHasMenuSection)) {
+        if ($this->menuMenuSections->removeElement($menuMenuSection)) {
             // set the owning side to null (unless already changed)
-            if ($menuHasMenuSection->getMenu() === $this) {
-                $menuHasMenuSection->setMenu(null);
+            if ($menuMenuSection->getMenu() === $this) {
+                $menuMenuSection->setMenu(null);
             }
         }
 
         return $this;
     }
 
+    public function getRestaurant(): ?Restaurant
+    {
+        return $this->restaurant;
+    }
 
+    public function setRestaurant(?Restaurant $restaurant): self
+    {
+        $this->restaurant = $restaurant;
+
+        return $this;
+    }
 }

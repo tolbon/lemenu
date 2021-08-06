@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method LabelMenuItem[]    findAll()
  * @method LabelMenuItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LabelRepository extends ServiceEntityRepository
+class LabelMenuItemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -1,141 +1,98 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Menu;
-use App\Entity\MenuItem;
 use App\Repository\MenuSectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MenuSection
- *
- * @ORM\Table(name="menu_section")
  * @ORM\Entity(repositoryClass=MenuSectionRepository::class)
  */
 class MenuSection
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private string $name;
+    private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $description;
+    private $description;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="title_price1", type="string", length=20, nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
-    private ?string $titlePrice1;
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="title_price2", type="string", length=20, nullable=true)
-     */
-    private ?string $titlePrice2;
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="title_price3", type="string", length=20, nullable=true)
-     */
-    private ?string $titlePrice3;
+    private $price1;
 
     /**
-     * @var float|null
-     *
-     * @ORM\Column(name="price1", type="float", precision=8, scale=2, nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
-    private ?float $price1;
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="price2", type="float", precision=8, scale=2, nullable=true)
-     */
-    private ?float $price2;
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="price3", type="float", precision=8, scale=2, nullable=true)
-     */
-    private ?float $price3;
+    private $price2;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="display_currency_symbol_on_title", type="boolean", nullable=false)
+     * @ORM\Column(type="float", nullable=true)
      */
-    private bool $displayCurrencySymbolOnTitle;
+    private $price3;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="display_currency_symbol_on_children", type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      */
-    private bool $displayCurrencySymbolOnChildren;
+    private $displayCurrencySymbolOnTitle;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="display_description_after_children", type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      */
-    private bool $displayDescriptionAfterChildren;
+    private $displayCurrencyOnChildren;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="display_children_section_after_menuItems", type="boolean", nullable=false)
+     * @ORM\Column(type="boolean")
      */
-    private bool $displayChildrenSectionAfterMenuItems;
+    private $displayChildrenSectionAfterMenuItems;
 
     /**
-     * @var \DateTimeImmutable
-     *
-     * @ORM\Column(name="insert_date_db", type="datetimetz_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $insertDateDb = 'CURRENT_TIMESTAMP';
+    private $titlePrice1;
 
     /**
-     * @ORM\ManyToMany(targetEntity=MenuItem::class)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $hasMenuItem;
+    private $titlePrice2;
 
     /**
-     * @ORM\OneToMany(targetEntity=MenuHasMenuSection::class, mappedBy="menuSection", orphanRemoval=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $menuHasMenuSections;
+    private $titlePrice3;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $insertDateAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Restaurant::class)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private Restaurant $restaurant;
+    private $restaurant;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MenuSectionMenuItem::class, mappedBy="menuSection", orphanRemoval=true)
+     */
+    private $menuSectionMenuItems;
 
     public function __construct()
     {
-        $this->hasMenuSection = new ArrayCollection();
-        $this->hasMenuItem = new ArrayCollection();
-        $this->menus = new ArrayCollection();
-        $this->menuHasMenuSections = new ArrayCollection();
+        $this->menuSectionMenuItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,7 +117,7 @@ class MenuSection
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -172,9 +129,23 @@ class MenuSection
         return $this->price1;
     }
 
+    public function setPrice1(?float $price1): self
+    {
+        $this->price1 = $price1;
+
+        return $this;
+    }
+
     public function getPrice2(): ?float
     {
         return $this->price2;
+    }
+
+    public function setPrice2(?float $price2): self
+    {
+        $this->price2 = $price2;
+
+        return $this;
     }
 
     public function getPrice3(): ?float
@@ -182,93 +153,9 @@ class MenuSection
         return $this->price3;
     }
 
-    public function setPrice1(?float $price): self
+    public function setPrice3(?float $price3): self
     {
-        $this->price1 = $price;
-
-        return $this;
-    }
-
-    public function setPrice2(?float $price): self
-    {
-        $this->price2 = $price;
-
-        return $this;
-    }
-
-    public function setPrice3(?float $price): self
-    {
-        $this->price3 = $price;
-
-        return $this;
-    }
-
-    public function getMenuSection(): ?self
-    {
-        return $this->menuSection;
-    }
-
-    public function setMenuSection(?self $menuSection): self
-    {
-        $this->menuSection = $menuSection;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<MenuItem>|MenuItem[]
-     */
-    public function getHasMenuItem(): Collection
-    {
-        return $this->hasMenuItem;
-    }
-
-    public function addHasMenuItem(MenuItem $hasMenuItem): self
-    {
-        if (!$this->hasMenuItem->contains($hasMenuItem)) {
-            $this->hasMenuItem[] = $hasMenuItem;
-        }
-
-        return $this;
-    }
-
-    public function removeHasMenuItem(MenuItem $hasMenuItem): self
-    {
-        $this->hasMenuItem->removeElement($hasMenuItem);
-
-        return $this;
-    }
-
-    public function replaceHasMenuItem($hasMenuItems): self
-    {
-        $this->hasMenuItem = $hasMenuItems;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<Menu>|Menu[]
-     */
-    public function getMenus(): Collection
-    {
-        return $this->menus;
-    }
-
-    public function addMenu(Menu $menu): self
-    {
-        if (!$this->menus->contains($menu)) {
-            $this->menus[] = $menu;
-            $menu->addHasMenuSection($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMenu(Menu $menu): self
-    {
-        if ($this->menus->removeElement($menu)) {
-            $menu->removeHasMenuSection($this);
-        }
+        $this->price3 = $price3;
 
         return $this;
     }
@@ -285,42 +172,23 @@ class MenuSection
         return $this;
     }
 
-    public function getDisplayCurrencySymbolOnChildren(): ?bool
+    public function getDisplayCurrencyOnChildren(): ?bool
     {
-        return $this->displayCurrencySymbolOnChildren;
+        return $this->displayCurrencyOnChildren;
     }
 
-    public function setDisplayCurrencySymbolOnChildren(bool $displayCurrencySymbolOnChildren): self
+    public function setDisplayCurrencyOnChildren(bool $displayCurrencyOnChildren): self
     {
-        $this->displayCurrencySymbolOnChildren = $displayCurrencySymbolOnChildren;
+        $this->displayCurrencyOnChildren = $displayCurrencyOnChildren;
 
         return $this;
     }
 
-    public function getDisplayDescriptionAfterChildren(): ?bool
-    {
-        return $this->displayDescriptionAfterChildren;
-    }
-
-    public function setDisplayDescriptionAfterChildren(bool $displayDescriptionAfterChildren): self
-    {
-        $this->displayDescriptionAfterChildren = $displayDescriptionAfterChildren;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDisplayChildrenSectionAfterMenuItems(): bool
+    public function getDisplayChildrenSectionAfterMenuItems(): ?bool
     {
         return $this->displayChildrenSectionAfterMenuItems;
     }
 
-    /**
-     * @param bool $displayChildrenSectionAfterMenuItems
-     * @return MenuSection
-     */
     public function setDisplayChildrenSectionAfterMenuItems(bool $displayChildrenSectionAfterMenuItems): self
     {
         $this->displayChildrenSectionAfterMenuItems = $displayChildrenSectionAfterMenuItems;
@@ -328,135 +196,93 @@ class MenuSection
         return $this;
     }
 
-    /**
-     * @return \DateTimeImmutable
-     */
-    public function getInsertDateDb()
-    {
-        return $this->insertDateDb;
-    }
-
-    /**
-     * @param \DateTimeImmutable $insertDateDb
-     * @return MenuSection
-     */
-    public function setInsertDateDb($insertDateDb): self
-    {
-        $this->insertDateDb = $insertDateDb;
-        return $this;
-    }
-
-    public function getPosition(): ?int
-    {
-        return $this->position;
-    }
-
-    public function setPosition(int $position): self
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<MenuHasMenuSection>|MenuHasMenuSection[]
-     */
-    public function getMenuHasMenuSections(): Collection
-    {
-        return $this->menuHasMenuSections;
-    }
-
-    public function addMenuHasMenuSection(MenuHasMenuSection $menuHasMenuSection): self
-    {
-        if (!$this->menuHasMenuSections->contains($menuHasMenuSection)) {
-            $this->menuHasMenuSections[] = $menuHasMenuSection;
-            $menuHasMenuSection->setMenuSection($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMenuHasMenuSection(MenuHasMenuSection $menuHasMenuSection): self
-    {
-        if ($this->menuHasMenuSections->removeElement($menuHasMenuSection)) {
-            // set the owning side to null (unless already changed)
-            if ($menuHasMenuSection->getMenuSection() === $this) {
-                $menuHasMenuSection->setMenuSection(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getTitlePrice1(): ?string
     {
         return $this->titlePrice1;
     }
 
-    /**
-     * @param string|null $titlePrice1
-     * @return MenuSection
-     */
-    public function setTitlePrice1(?string $titlePrice1): MenuSection
+    public function setTitlePrice1(?string $titlePrice1): self
     {
         $this->titlePrice1 = $titlePrice1;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTitlePrice2(): ?string
     {
         return $this->titlePrice2;
     }
 
-    /**
-     * @param string|null $titlePrice2
-     * @return MenuSection
-     */
-    public function setTitlePrice2(?string $titlePrice2): MenuSection
+    public function setTitlePrice2(?string $titlePrice2): self
     {
         $this->titlePrice2 = $titlePrice2;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTitlePrice3(): ?string
     {
         return $this->titlePrice3;
     }
 
-    /**
-     * @param string|null $titlePrice3
-     * @return MenuSection
-     */
-    public function setTitlePrice3(?string $titlePrice3): MenuSection
+    public function setTitlePrice3(?string $titlePrice3): self
     {
         $this->titlePrice3 = $titlePrice3;
+
         return $this;
     }
 
-    /**
-     * @return Restaurant
-     */
-    public function getRestaurant(): Restaurant
+    public function getInsertDateAt(): ?\DateTimeImmutable
+    {
+        return $this->insertDateAt;
+    }
+
+    public function setInsertDateAt(\DateTimeImmutable $insertDateAt): self
+    {
+        $this->insertDateAt = $insertDateAt;
+
+        return $this;
+    }
+
+    public function getRestaurant(): ?Restaurant
     {
         return $this->restaurant;
     }
 
-    /**
-     * @param Restaurant $restaurant
-     * @return MenuSection
-     */
-    public function setRestaurant(Restaurant $restaurant): MenuSection
+    public function setRestaurant(?Restaurant $restaurant): self
     {
         $this->restaurant = $restaurant;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MenuSectionMenuItem[]
+     */
+    public function getMenuSectionMenuItems(): Collection
+    {
+        return $this->menuSectionMenuItems;
+    }
+
+    public function addMenuSectionMenuItem(MenuSectionMenuItem $menuSectionMenuItem): self
+    {
+        if (!$this->menuSectionMenuItems->contains($menuSectionMenuItem)) {
+            $this->menuSectionMenuItems[] = $menuSectionMenuItem;
+            $menuSectionMenuItem->setMenuSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenuSectionMenuItem(MenuSectionMenuItem $menuSectionMenuItem): self
+    {
+        if ($this->menuSectionMenuItems->removeElement($menuSectionMenuItem)) {
+            // set the owning side to null (unless already changed)
+            if ($menuSectionMenuItem->getMenuSection() === $this) {
+                $menuSectionMenuItem->setMenuSection(null);
+            }
+        }
+
         return $this;
     }
 }
