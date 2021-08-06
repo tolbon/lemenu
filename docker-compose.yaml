@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-    apache-php74:
+    apache-php80:
         build:
             context: docker/apache
         depends_on:
@@ -11,15 +11,6 @@ services:
               target: /var/www/html/
         ports:
             - 8090:80
-
-    keycloak:
-        image: quay.io/keycloak/keycloak:15.0.0
-        ports:
-            - "8080:8080"
-            - "8433:8433"
-        environment:
-            - KEYCLOAK_USER=admin
-            - KEYCLOAK_PASSWORD=admin
 
     mysql57:
         build:
