@@ -58,7 +58,7 @@ class Menu
     private $menuMenuSections;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="menu2s")
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="menus")
      * @ORM\JoinColumn(nullable=false)
      */
     private $restaurant;

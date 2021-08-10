@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MenuSectionRepository::class
+ * @ORM\Entity(repositoryClass=MenuSectionRepository::class)
  * @ORM\HasLifecycleCallbacks()
  * 
  */
@@ -29,7 +29,7 @@ class MenuSection
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=1024, nullable=true)
      */
     private $description;
 

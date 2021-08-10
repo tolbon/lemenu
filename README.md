@@ -15,8 +15,6 @@ Pouvoir filtrer pour les allergenes, les regimes alimentaire et les envies preci
 
 
 # TODO
-Fusion des Repository
-DateTime valeur CURRENT_TIMESTAMP par default en DB
 Description en type text
 Reinserer les datas en fixtures
 Utiliser la classe String pour Slugify les noms urlSlug
@@ -26,7 +24,5 @@ Recreer la table User
 Mettre des allergies/diets
 Repasser sur les controllers
 Repasser sur les templates
-Les PreEvent Doctrine et BDD pour verifier qu'une section appartient bien au meme restaurant que son MenuItem?
-Les PreEvent Doctrine et BDD pour verifier qu'une section appartient bien au meme restaurant que son Menu?
 
 

@@ -26,7 +26,7 @@ class Restaurant
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=1024)
+     * @ORM\Column(type="text")
      */
     private $description;
 
