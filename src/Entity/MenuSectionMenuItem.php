@@ -6,6 +6,7 @@ use App\Repository\MenuSectionMenuItemRepository;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 /**
  * @ORM\Table(uniqueConstraints={
@@ -108,4 +109,14 @@ class MenuSectionMenuItem
         $this->insertDateAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
     }
 
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function validateRestaurant(): void 
+    {
+        if ($this->menuSection->getRestaurant()->getId() !== $this->menuItem->getRestaurant()->getId()) {
+            throw new InvalidArgumentException("menuSection and menuItem have different restaurant Id ??? Hack ?");
+        }
+    }
 }
