@@ -39,7 +39,7 @@ class MenuSectionMenuItem
     private $position;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $insertDateAt;
 
