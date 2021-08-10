@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MenuMenuSectionRepository;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  *  @ORM\UniqueConstraint(name="UNIQ_9AEC8DF98E57A2", columns={"menu_id", "menu_section_parent_id", "position"})
  * })
  * @ORM\Entity(repositoryClass=MenuMenuSectionRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * 
  */
 class MenuMenuSection
 {
@@ -113,4 +117,13 @@ class MenuMenuSection
 
         return $this;
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setInsertDateAtDefault(): void 
+    {
+        $this->insertDateAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+    }
+
 }

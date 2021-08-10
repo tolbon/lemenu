@@ -61,26 +61,31 @@ class MenuItemRepository extends ServiceEntityRepository
 
         return $qb->execute()->fetchAllAssociativeIndexed();
     }
-/*
+
     public function findAllAllergyOfIds2(array $menuItemIds)
     {
         $qb = $this->createQueryBuilder('mi');
-        $qb->select('a')
-        ->innerJoin('mi.', '')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
+
+        return $qb->select('a')
+            ->innerJoin('mi.allergies', 'a')
+            ->andWhere($qb->expr()->in('mi.id', ':menuItemsIds'))
+            ->setParameter('menuItemsIds', $menuItemIds)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
-        $qb = $this->_em->getConnection()->createQueryBuilder();
-
-        $qb->select('mia.menu_item_id', 'a.id', 'a.name')
-            ->from('menu_item_allergy', 'mia')
-            ->innerJoin('mia', 'allergy', 'a', 'mia.allergy_id = a.id')
-            ->where($qb->expr()->in('mia.menu_item_id', ':menuItemIds'))
-            ->setParameter('menuItemIds', $menuItemIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
-
-        return $qb->execute()->fetchAllAssociativeIndexed();
     }
-*/
+
+    public function findAllDietOfIds2(array $menuItemIds)
+    {
+        $qb = $this->createQueryBuilder('mi');
+
+        return $qb->select('d')
+            ->innerJoin('mi.diets', 'd')
+            ->andWhere($qb->expr()->in('mi.id', ':menuItemsIds'))
+            ->setParameter('menuItemsIds', $menuItemIds)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 }

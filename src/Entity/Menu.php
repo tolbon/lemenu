@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MenuRepository;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  *  @ORM\UniqueConstraint(name="UNIQ_8E03F6E506817D74", columns={"restaurant_id", "url_slug", "activate"})
  * })
  * @ORM\Entity(repositoryClass=MenuRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * 
  */
 class Menu
 {
@@ -169,5 +173,13 @@ class Menu
         $this->restaurant = $restaurant;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setInsertDateAtDefault(): void 
+    {
+        $this->insertDateAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
     }
 }
