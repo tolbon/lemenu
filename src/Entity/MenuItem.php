@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MenuItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,22 @@ class MenuItem
      * @ORM\Column(type="datetime_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $insertDateAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Allergy::class)
+     */
+    private $allergies;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Diet::class)
+     */
+    private $diets;
+
+    public function __construct()
+    {
+        $this->allergies = new ArrayCollection();
+        $this->diets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -141,6 +159,54 @@ class MenuItem
     public function setInsertDateAt(\DateTimeImmutable $insertDateAt): self
     {
         $this->insertDateAt = $insertDateAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Allergy[]
+     */
+    public function getAllergies(): Collection
+    {
+        return $this->allergies;
+    }
+
+    public function addAllergy(Allergy $allergy): self
+    {
+        if (!$this->allergies->contains($allergy)) {
+            $this->allergies[] = $allergy;
+        }
+
+        return $this;
+    }
+
+    public function removeAllergy(Allergy $allergy): self
+    {
+        $this->allergies->removeElement($allergy);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Diet[]
+     */
+    public function getDiets(): Collection
+    {
+        return $this->diets;
+    }
+
+    public function addDiet(Diet $diet): self
+    {
+        if (!$this->diets->contains($diet)) {
+            $this->diets[] = $diet;
+        }
+
+        return $this;
+    }
+
+    public function removeDiet(Diet $diet): self
+    {
+        $this->diets->removeElement($diet);
 
         return $this;
     }
