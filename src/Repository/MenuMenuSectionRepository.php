@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -7,12 +8,12 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method MenuMenuSection2|null find($id, $lockMode = null, $lockVersion = null)
- * @method MenuMenuSection2|null findOneBy(array $criteria, array $orderBy = null)
- * @method MenuMenuSection2[]    findAll()
- * @method MenuMenuSection2[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MenuMenuSection|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MenuMenuSection|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MenuMenuSection[]    findAll()
+ * @method MenuMenuSection[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MenuMenuSection2Repository extends ServiceEntityRepository
+class MenuMenuSectionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

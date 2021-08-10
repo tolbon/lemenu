@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Entity\MenuItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -65,14 +66,15 @@ class MenuItemRepository extends ServiceEntityRepository
     public function findAllAllergyOfIds2(array $menuItemIds)
     {
         $qb = $this->createQueryBuilder('mi');
-
-        return $qb->select('a')
+        
+        $query = $qb->select('a')
             ->innerJoin('mi.allergies', 'a')
             ->andWhere($qb->expr()->in('mi.id', ':menuItemsIds'))
             ->setParameter('menuItemsIds', $menuItemIds)
-            ->getQuery()
-            ->getResult()
-        ;
+            ->getQuery();
+        $query->setHint(Query::HINT_READ_ONLY, true);
+        
+        return $query->getResult();
     }
 
     public function findAllDietOfIds2(array $menuItemIds)

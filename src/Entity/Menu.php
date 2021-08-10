@@ -8,6 +8,7 @@ use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @ORM\Table(uniqueConstraints={
@@ -15,7 +16,6 @@ use Doctrine\ORM\Mapping as ORM;
  *  @ORM\UniqueConstraint(name="UNIQ_8E03F6E506817D74", columns={"restaurant_id", "url_slug", "activate"})
  * })
  * @ORM\Entity(repositoryClass=MenuRepository::class)
- * @ORM\HasLifecycleCallbacks()
  * 
  */
 class Menu
@@ -175,11 +175,10 @@ class Menu
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function setInsertDateAtDefault(): void 
+    public function computeSlug(SluggerInterface $slugger)
     {
-        $this->insertDateAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+        if (!$this->slug || '-' === $this->slug) {
+            $this->slug = (string)$slugger->slug($this->name)->lower();
+        }
     }
 }

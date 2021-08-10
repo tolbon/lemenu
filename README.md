@@ -15,7 +15,6 @@ Pouvoir filtrer pour les allergenes, les regimes alimentaire et les envies preci
 
 
 # TODO
-Description en type text
 Reinserer les datas en fixtures
 Utiliser la classe String pour Slugify les noms urlSlug
 Chaque restaurant a sa propre section "root" son id est inscrit dans la table restaurant.root_section_id
@@ -24,5 +23,6 @@ Recreer la table User
 Mettre des allergies/diets
 Repasser sur les controllers
 Repasser sur les templates
+Compiler et mise en cache en PHP ARRAY des Diets et Allergies
 
 

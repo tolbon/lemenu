@@ -6,6 +6,7 @@ use App\Repository\RestaurantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_75DF1DF98E57", columns={"url_slug"})})
@@ -62,7 +63,7 @@ class Restaurant
 
     public function __construct()
     {
-        $this->menu2s = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,13 +160,13 @@ class Restaurant
      */
     public function getMenus(): Collection
     {
-        return $this->menu2s;
+        return $this->menus;
     }
 
     public function addMenu(Menu $menu): self
     {
-        if (!$this->menu2s->contains($menu)) {
-            $this->menu2s[] = $menu;
+        if (!$this->menus->contains($menu)) {
+            $this->menus[] = $menu;
             $menu->setRestaurant($this);
         }
 
@@ -174,7 +175,7 @@ class Restaurant
 
     public function removeMenu(Menu $menu): self
     {
-        if ($this->menu2s->removeElement($menu)) {
+        if ($this->menus->removeElement($menu)) {
             // set the owning side to null (unless already changed)
             if ($menu->getRestaurant() === $this) {
                 $menu->setRestaurant(null);
@@ -182,5 +183,12 @@ class Restaurant
         }
 
         return $this;
+    }
+
+    public function computeSlug(SluggerInterface $slugger)
+    {
+        if (!$this->slug || '-' === $this->slug) {
+            $this->slug = (string)$slugger->slug($this->name)->lower();
+        }
     }
 }
