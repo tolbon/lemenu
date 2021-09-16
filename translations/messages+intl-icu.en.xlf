@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="UqUq1Zi" resname="GlutenFreeDiet">
+        <source>GlutenFreeDiet</source>
+        <target>GlutenFreeDiet</target>
+      </trans-unit>
+      <trans-unit id="0lN8L9N" resname="HalalDiet">
+        <source>HalalDiet</source>
+        <target>HalalDiet</target>
+      </trans-unit>
+      <trans-unit id="lOMjOaF" resname="HinduDiet">
+        <source>HinduDiet</source>
+        <target>HinduDiet</target>
+      </trans-unit>
+      <trans-unit id="YnEU4Ii" resname="KosherDiet">
+        <source>KosherDiet</source>
+        <target>KosherDiet</target>
+      </trans-unit>
+      <trans-unit id="4jFAS2W" resname="LowLactoseDiet">
+        <source>LowLactoseDiet</source>
+        <target>LowLactoseDiet</target>
+      </trans-unit>
+      <trans-unit id="TXkvGgJ" resname="VeganDiet">
+        <source>VeganDiet</source>
+        <target>VeganDiet</target>
+      </trans-unit>
+      <trans-unit id="ZmxmGbR" resname="VegetarianDiet">
+        <source>VegetarianDiet</source>
+        <target>VegetarianDiet</target>
+      </trans-unit>
+      <trans-unit id="fhWmZgu" resname="NoPork">
+        <source>NoPork</source>
+        <target>NoPork</target>
+      </trans-unit>
+      <trans-unit id="Aw0VJWQ" resname="AlcoholFree">
+        <source>AlcoholFree</source>
+        <target>AlcoholFree</target>
+      </trans-unit>
+      <trans-unit id="VQmEDQh" resname="peanut">
+        <source>peanut</source>
+        <target>peanut</target>
+      </trans-unit>
+      <trans-unit id="3cUXe5I" resname="celery">
+        <source>celery</source>
+        <target>celery</target>
+      </trans-unit>
+      <trans-unit id="8u.J2Qn" resname="shellfish">
+        <source>shellfish</source>
+        <target>shellfish</target>
+      </trans-unit>
+      <trans-unit id="ff2JKKS" resname="nut">
+        <source>nut</source>
+        <target>nut</target>
+      </trans-unit>
+      <trans-unit id="QZxx8r3" resname="gluten">
+        <source>gluten</source>
+        <target>gluten</target>
+      </trans-unit>
+      <trans-unit id="gYhi45Y" resname="lactose">
+        <source>lactose</source>
+        <target>lactose</target>
+      </trans-unit>
+      <trans-unit id="XS2zyRW" resname="lupine">
+        <source>lupine</source>
+        <target>lupine</target>
+      </trans-unit>
+      <trans-unit id="FBCGdM2" resname="mollusc">
+        <source>mollusc</source>
+        <target>mollusc</target>
+      </trans-unit>
+      <trans-unit id="NStbZpn" resname="mustard">
+        <source>mustard</source>
+        <target>mustard</target>
+      </trans-unit>
+      <trans-unit id="NHB8P0D" resname="egg">
+        <source>egg</source>
+        <target>egg</target>
+      </trans-unit>
+      <trans-unit id="tHSpmic" resname="fish">
+        <source>fish</source>
+        <target>fish</target>
+      </trans-unit>
+      <trans-unit id="0MBPSxl" resname="sesame">
+        <source>sesame</source>
+        <target>sesame</target>
+      </trans-unit>
+      <trans-unit id="5na1EDp" resname="soy">
+        <source>soy</source>
+        <target>soy</target>
+      </trans-unit>
+      <trans-unit id="IvZ.svc" resname="sulphites">
+        <source>sulphites</source>
+        <target>sulphites</target>
+      </trans-unit>
+      <trans-unit id="kEXW8Fy" resname="menus">
+        <source>menus</source>
+        <target>menus</target>
+      </trans-unit>
+      <trans-unit id="JBkykGe" resname="search">
+        <source>search</source>
+        <target>__search</target>
+      </trans-unit>
+      <trans-unit id="o2xEMze" resname="diet">
+        <source>diet</source>
+        <target>__diet</target>
+      </trans-unit>
+      <trans-unit id="0Si2dgG" resname="allergy">
+        <source>allergy</source>
+        <target>__allergy</target>
+      </trans-unit>
+      <trans-unit id="FX3KkuQ" resname="save">
+        <source>save</source>
+        <target>__save</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

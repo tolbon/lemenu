@@ -1,0 +1,29 @@
+{% import "components/priceMacro.html.twig" as macroPrice %}
+<div>
+    {# menuItem \App\DTO\Output\MenuItemOutput #}
+    {# section \App\\DTO\Output\MenuSectionOutput #}
+    <div>{{ menuItem.name }}</div>
+    {{ macroPrice.displayMenuPrice(section.displayCurrencySymbolOnChildren, currency, menuItem.price1, menuItem.price2, menuItem.price3) }}
+    <div>{{ menuItem.description }}</div>
+    <div>
+        //FIXME
+        <h6>DEBUG : Allergens</h6>
+        <ul>
+            {% for tag in menuItem.allergens %}
+                <li>{{ tag }}</li>
+            {% endfor %}
+        </ul>
+        <h6>DEBUG : Diets</h6>
+        <ul>
+            {% for tag in menuItem.diets %}
+                <li>{{ tag }}</li>
+            {% endfor %}
+        </ul>
+        <h6>DEBUG : Labels</h6>
+        <ul>
+            {% for tag in menuItem.labels %}
+                <li>{{ tag }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

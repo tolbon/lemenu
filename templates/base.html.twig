@@ -3,12 +3,36 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        <link rel="manifest" href="manifest.webmanifest">
+
+        <meta name="mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="application-name" content="Le Menu"/>
+        <meta name="apple-mobile-web-app-title" content="Le Menu"/>
+        <meta name="msapplication-starturl" content="/"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <link rel="apple-touch-icon" sizes="120x120" href="./static/images/apple-touch-icon.png"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="./static/images/favicon-32x32.png"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="./static/images/favicon-16x16.png"/>
+        <link rel="mask-icon" href="./static/images/safari-pinned-tab.svg" color="#5bbad5"/>
+        <meta name="msapplication-TileColor" content="#FFFFFF"/>
+
+        <meta name="description" content="Clicker Like"/>
+        <meta name="keywords" content="Clicker Like"/>
+
         {% block stylesheets %}
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
     </body>
 </html>

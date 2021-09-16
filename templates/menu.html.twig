@@ -1,31 +1,37 @@
 {% extends "base.html.twig" %}
 
-{% import "macroHtmlMenu.html.twig" as macroHtmlMenu %}
-{% import "macroJsonMenu.json.twig" as macroJsonMenu %}
 
-{% block title %}{{ restaurant.name }} - {{ restaurant.hasMenu[0].name}}{% endblock %}
+{% import "macroHtmlMenu.html.twig" as macroHtmlMenu %}
+{#
+{% import "macroJsonMenu.json.twig" as macroJsonMenu %}
+#}
+{% block title %}{{ restaurant.name }} - {{ menu.name}}{% endblock %}
 
 {% block body %}
+    <h1>{{ restaurant.name }}</h1>
+    <a href="{{ path('menu_list', {'restaurantName': restaurant.urlSlug|url_encode}) }}">{% trans %}menus{% endtrans %}</a>
     <nav>
         Sommaire
         <ul>
-        {% for menuSection in restaurant.hasMenu[0].hasMenuSection %}
-            <li><a href="#{{ menuSection.formattedName }}"> {{ menuSection.name }} </a></li>
-        {% endfor %}
+            {% for menuSection in menu.menuSections %}
+                <li><a href="#{{ menuSection.name|url_encode }}"> {{ menuSection.name }} </a></li>
+            {% endfor %}
         </ul>
     </nav>
     <div>
         {{ form_start(form) }}
         {{ form_end(form) }}
     </div>
-    <h1>{{ restaurant.hasMenu[0].name }}</h1>
+    <h1>{{ menu.name }}</h1>
     <div>
-    {{ macroHtmlMenu.section(restaurant.hasMenu[0].hasMenuSection, restaurant.currency, 2) }}
+         {{ macroHtmlMenu.section(menu.menuSections, restaurant.currency, 2) }}
     </div>
 {% endblock %}
 
+{#
+
 {% block javascripts %}
-<script type="application/ld+json">
+    <script type="application/ld+json">
 {
     "@context":"http://schema.org",
     "@type":"Restaurant",
@@ -41,4 +47,4 @@
 </script>
 {% endblock %}
 
-
+#}

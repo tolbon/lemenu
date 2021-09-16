@@ -1,25 +1,27 @@
 {% macro section(menuSection, currency, hNumber) %}
-    {# @var menuSection \App\DTO\MenuSection[]|null #}
+    {% import "components/priceMacro.html.twig" as macroPrice %}
+    {# menuSection \App\DTO\Output\MenuSectionOutput[] #}
     <ul>
-    {% for section in menuSection %}
-        {# @var section \App\DTO\MenuSection #}
-        <li>
-            <h{{ hNumber }} id="{{ section.formattedName }}">{{ section.name }}
-                {% if section.price %}
-                    <span>{{ section.price }}</span> <span>{{ currency }}</span>
+        {% for section in menuSection %}
+            <li>
+                <h{{ hNumber }} id="{{ section.name }}">{{ section.name }}</h{{ hNumber }}>
+                {% include 'components/titlePriceMacro.html.twig' %}
+                {{ macroPrice.displayMenuPrice(section.displayCurrencySymbolOnTitle, currency, section.price1, section.price2, section.price3) }}
+                <p>{{ section.description }}</p>
+                {% if section.displayChildrenSectionAfterMenuItems == false %}
+                    {{ _self.section(section.menuSections, currency, (hNumber + 1)) }}
                 {% endif %}
-            </h{{ hNumber }}>
-            <p>{{ section.description }}</p>
-            {% import _self as self %}
-            {{ self.section(section.hasMenuSection, currency, (hNumber + 1)) }}
-            <ul>
-                {% for menuItem in section.hasMenuItem %}
-                    <li>
-                        {% include 'menu/menuItem.html.twig' %}
-                    </li>
-                {% endfor %}
-            </ul>
-        </li>
-    {% endfor %}
+                <ul>
+                    {% for menuItem in section.hasMenuItem %}
+                        <li>
+                            {% include 'components/menuItem.html.twig' %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% if section.displayChildrenSectionAfterMenuItems == true %}
+                    {{ _self.section(section.menuSections, currency, (hNumber + 1)) }}
+                {% endif %}
+            </li>
+        {% endfor %}
     </ul>
 {% endmacro %}
