@@ -15,14 +15,14 @@ Pouvoir filtrer pour les allergenes, les regimes alimentaire et les envies preci
 
 
 # TODO
-Reinserer les datas en fixtures
-Utiliser la classe String pour Slugify les noms urlSlug
-Chaque restaurant a sa propre section "root" son id est inscrit dans la table restaurant.root_section_id
-Creer un job console qui creer un restaurant avec son root section id
-Recreer la table User
-Mettre des allergies/diets
-Repasser sur les controllers
-Repasser sur les templates
-Compiler et mise en cache en PHP ARRAY des Diets et Allergies
+- [ ] Reinserer les datas en fixtures
+- [ ] Utiliser la classe String pour Slugify les noms urlSlug
+- [ ] Chaque restaurant a sa propre section "root" son id est inscrit dans la table restaurant.root_section_id
+- [ ] Creer un job console qui creer un restaurant avec son root section id
+- [ ] Recreer la table User
+- [ ] Mettre des allergies/diets
+- [ ] Repasser sur les controllers
+- [ ] Repasser sur les templates
+- [ ] Compiler et mise en cache en PHP ARRAY des Diets et Allergies
 
 
