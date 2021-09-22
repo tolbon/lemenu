@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -24,51 +25,53 @@ class MenuItem
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=1024, nullable=true)
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $price1;
+    private ?float $price1;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $price2;
+    private ?float $price2;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $price3;
+    private ?float $price3;
 
     /**
      * @ORM\ManyToOne(targetEntity=Restaurant::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $restaurant;
+    private ?Restaurant $restaurant;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $insertDateAt;
+    private ?DateTimeImmutable $insertDateAt;
 
     /**
      * @ORM\ManyToMany(targetEntity=Allergy::class)
+     * @var ArrayCollection<int, Allergy>
      */
     private $allergies;
 
     /**
      * @ORM\ManyToMany(targetEntity=Diet::class)
+     * @var ArrayCollection<int, Diet>
      */
     private $diets;
 
@@ -155,12 +158,12 @@ class MenuItem
         return $this;
     }
 
-    public function getInsertDateAt(): ?\DateTimeImmutable
+    public function getInsertDateAt(): ?DateTimeImmutable
     {
         return $this->insertDateAt;
     }
 
-    public function setInsertDateAt(\DateTimeImmutable $insertDateAt): self
+    public function setInsertDateAt(DateTimeImmutable $insertDateAt): self
     {
         $this->insertDateAt = $insertDateAt;
 

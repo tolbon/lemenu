@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -19,45 +20,47 @@ class Restaurant
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="string", length=3)
      */
-    private $currency;
+    private ?string $currency;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $activate;
+    private ?bool $activate;
 
     /**
      * @ORM\Column(type="ascii_string")
      */
-    private $urlSlug;
+    private ?string $urlSlug;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $address;
+    private ?string $address;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $phone;
+    private ?string $phone;
 
     /**
      * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="restaurant", orphanRemoval=true)
+     *
+     * @var ArrayCollection<int, Menu>
      */
     private $menus;
 
@@ -119,12 +122,12 @@ class Restaurant
         return $this;
     }
 
-    public function getUrlSlug()
+    public function getUrlSlug(): ?string
     {
         return $this->urlSlug;
     }
 
-    public function setUrlSlug($urlSlug): self
+    public function setUrlSlug(string $urlSlug): self
     {
         $this->urlSlug = $urlSlug;
 
@@ -166,7 +169,7 @@ class Restaurant
     public function addMenu(Menu $menu): self
     {
         if (!$this->menus->contains($menu)) {
-            $this->menus[] = $menu;
+            $this->menus->add($menu);
             $menu->setRestaurant($this);
         }
 
@@ -185,10 +188,10 @@ class Restaurant
         return $this;
     }
 
-    public function computeSlug(SluggerInterface $slugger)
+    public function computeSlug(SluggerInterface $slugger): void
     {
-        if (!$this->slug || '-' === $this->slug) {
-            $this->slug = (string)$slugger->slug($this->name)->lower();
+        if (!$this->urlSlug || '-' === $this->urlSlug) {
+            $this->setUrlSlug((string)$slugger->slug($this->name)->lower());
         }
     }
 }

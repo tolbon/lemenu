@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -25,35 +26,36 @@ class Menu
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $activate;
+    private ?bool $activate;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $urlSlug;
+    private ?string $urlSlug;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $insertDateAt;
+    private ?DateTimeImmutable $insertDateAt;
 
     /**
      * @ORM\OneToMany(targetEntity=MenuMenuSection::class, mappedBy="menu", orphanRemoval=true)
+     * @var ArrayCollection<int, MenuMenuSection>
      */
     private $menuMenuSections;
 
@@ -61,7 +63,7 @@ class Menu
      * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="menus")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $restaurant;
+    private ?Restaurant $restaurant;
 
     public function __construct()
     {
@@ -121,12 +123,12 @@ class Menu
         return $this;
     }
 
-    public function getInsertDateAt(): ?\DateTimeImmutable
+    public function getInsertDateAt(): ?DateTimeImmutable
     {
         return $this->insertDateAt;
     }
 
-    public function setInsertDateAt(\DateTimeImmutable $insertDateAt): self
+    public function setInsertDateAt(DateTimeImmutable $insertDateAt): self
     {
         $this->insertDateAt = $insertDateAt;
 
@@ -175,10 +177,10 @@ class Menu
         return $this;
     }
 
-    public function computeSlug(SluggerInterface $slugger)
+    public function computeSlug(SluggerInterface $slugger): void
     {
-        if (!$this->slug || '-' === $this->slug) {
-            $this->slug = (string)$slugger->slug($this->name)->lower();
+        if (!$this->urlSlug || '-' === $this->urlSlug) {
+            $this->setUrlSlug((string)$slugger->slug($this->name)->lower());
         }
     }
 }

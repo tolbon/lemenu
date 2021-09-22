@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -21,76 +22,77 @@ class MenuSection
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=1024, nullable=true)
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $price1;
+    private ?float $price1;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $price2;
+    private ?float $price2;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $price3;
+    private ?float $price3;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $displayCurrencySymbolOnTitle;
+    private ?bool $displayCurrencySymbolOnTitle;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $displayCurrencyOnChildren;
+    private ?bool $displayCurrencyOnChildren;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $displayChildrenSectionAfterMenuItems;
+    private ?bool $displayChildrenSectionAfterMenuItems;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $titlePrice1;
+    private ?string $titlePrice1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $titlePrice2;
+    private ?string $titlePrice2;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $titlePrice3;
+    private ?string $titlePrice3;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $insertDateAt;
+    private ?DateTimeImmutable $insertDateAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Restaurant::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $restaurant;
+    private ?Restaurant $restaurant;
 
     /**
      * @ORM\OneToMany(targetEntity=MenuSectionMenuItem::class, mappedBy="menuSection", orphanRemoval=true)
+     * @var ArrayCollection<int, MenuSectionMenuItem>
      */
     private $menuSectionMenuItems;
 
@@ -236,12 +238,12 @@ class MenuSection
         return $this;
     }
 
-    public function getInsertDateAt(): ?\DateTimeImmutable
+    public function getInsertDateAt(): ?DateTimeImmutable
     {
         return $this->insertDateAt;
     }
 
-    public function setInsertDateAt(\DateTimeImmutable $insertDateAt): self
+    public function setInsertDateAt(DateTimeImmutable $insertDateAt): self
     {
         $this->insertDateAt = $insertDateAt;
 

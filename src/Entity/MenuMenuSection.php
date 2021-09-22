@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -24,35 +25,35 @@ class MenuMenuSection
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Menu::class, inversedBy="menuMenuSections")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $menu;
+    private ?Menu $menu;
 
     /**
      * @ORM\ManyToOne(targetEntity=MenuSection::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $menuSectionParent;
+    private ?MenuSection $menuSectionParent;
 
     /**
      * @ORM\ManyToOne(targetEntity=MenuSection::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $menuSection;
+    private ?MenuSection $menuSection;
 
     /**
      * @ORM\Column(type="smallint")
      */
-    private $position;
+    private ?int $position;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $insertDateAt;
+    private ?DateTimeImmutable $insertDateAt;
 
     public function getId(): ?int
     {
@@ -107,12 +108,12 @@ class MenuMenuSection
         return $this;
     }
 
-    public function getInsertDateAt(): ?\DateTimeImmutable
+    public function getInsertDateAt(): ?DateTimeImmutable
     {
         return $this->insertDateAt;
     }
 
-    public function setInsertDateAt(\DateTimeImmutable $insertDateAt): self
+    public function setInsertDateAt(DateTimeImmutable $insertDateAt): self
     {
         $this->insertDateAt = $insertDateAt;
 
