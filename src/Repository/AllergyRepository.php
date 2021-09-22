@@ -5,9 +5,7 @@ namespace App\Repository;
 
 use App\Entity\Allergy;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
-use function Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * @method Allergy|null find($id, $lockMode = null, $lockVersion = null)

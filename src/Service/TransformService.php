@@ -8,7 +8,7 @@ use App\DTO\Output\MenuItemOutput;
 use App\DTO\Output\MenuOutput;
 use App\DTO\Output\MenuSectionOutput;
 use App\Entity\Menu;
-use App\Entity\MenuHasMenuSection;
+use App\Entity\MenuMenuSection;
 use App\Entity\MenuSection;
 
 class TransformService
@@ -20,7 +20,7 @@ class TransformService
         $menuOut->name = $menu->getName();
         $menuOut->urlSlug = $menu->getUrlSlug();
 
-        $menuHasMenuSections = $menu->getMenuHasMenuSections()->toArray();
+        $menuHasMenuSections = $menu->getMenuMenuSections()->toArray();
 
         $menuOut->menuSections = $this->transformMenuSectionOrdered($menuHasMenuSections, 0, $allergies, $diets);
 
@@ -40,8 +40,8 @@ class TransformService
         });
 
         usort($menuHasMenuSectionFilter, static function ($a, $b) {
-            /** @var MenuHasMenuSection $a */
-            /** @var MenuHasMenuSection $b */
+            /** @var MenuMenuSection $a */
+            /** @var MenuMenuSection $b */
             return ($a->getPosition() < $b->getPosition()) ? -1 : 1;
         });
 
@@ -61,9 +61,8 @@ class TransformService
             $menuSectionOutput->titlePrice3 = $menuSec->getTitlePrice3();
 
             $menuSectionOutput->displayCurrencySymbolOnTitle = $menuSec->getDisplayCurrencySymbolOnTitle();
-            $menuSectionOutput->displayCurrencySymbolOnChildren = $menuSec->getDisplayCurrencySymbolOnChildren();
-            $menuSectionOutput->displayDescriptionAfterChildren = $menuSec->getDisplayDescriptionAfterChildren();
-            $menuSectionOutput->displayChildrenSectionAfterMenuItems = $menuSec->isDisplayChildrenSectionAfterMenuItems();
+            $menuSectionOutput->displayCurrencySymbolOnChildren = $menuSec->getDisplayCurrencyOnChildren();
+            $menuSectionOutput->displayChildrenSectionAfterMenuItems = $menuSec->getDisplayChildrenSectionAfterMenuItems();
 
             foreach ($menuSec->getHasMenuItem() as $menuItemEntity) {
                 $menuItemOut = new MenuItemOutput();
