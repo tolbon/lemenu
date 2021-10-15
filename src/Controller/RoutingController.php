@@ -8,6 +8,7 @@ use App\DTO\Output\MenuOutput;
 use App\Entity\Allergy;
 use App\Entity\Diet;
 use App\Entity\Menu;
+use App\Entity\MenuItem;
 use App\Entity\Restaurant;
 use App\Entity\User;
 use App\Form\PropertySearchType;
@@ -49,7 +50,7 @@ class RoutingController extends AbstractController
 
         if ($restaurant === null) {
             //404
-            return new Response(null);
+            return new Response(null, 404);
         }
 
         $content = $twig->render('restaurant.html.twig',
@@ -75,7 +76,7 @@ class RoutingController extends AbstractController
 
         if ($restaurant === null) {
             //404
-            return new Response(null);
+            return new Response(null, 404);
         }
 
         $content = $twig->render('menuList.html.twig',
@@ -88,23 +89,23 @@ class RoutingController extends AbstractController
 
 
     /**
-     * @Route("{restaurantName}/{menuName}", name="menu")
+     * @Route("{slugRestaurantName}/menus/{slugMenuName}", name="menu")
      * @param Environment $twig
      * @return Response
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function menuPage(string $restaurantName, string $menuName, Environment $twig, Request $request) {
+    public function menuPage(string $slugRestaurantName, string $slugMenuName, Environment $twig, Request $request) {
         $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
-        $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
+        $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $slugRestaurantName]);
 
         if ($restaurant === null) {
             //404
-            return new Response(null);
+            return new Response(null, 404);
         }
 
-        $menu = $this->findMyMenu($restaurant, $menuName);
+        $menu = $this->findMyMenu($restaurant, $slugMenuName);
 
         $filterMenu = new FilterMenuDTO();
 
@@ -140,10 +141,58 @@ class RoutingController extends AbstractController
         return new Response($content);
     }
 
+    /**
+     * @Route("{restaurantName}/menus/{menuName}.json", name="menuJson")
+     * @param Environment $twig
+     * @return Response
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function menuJsonPage(string $restaurantName, string $menuName, Environment $twig, Request $request) {
+        $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
+        $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
+
+        if ($restaurant === null) {
+            //404
+            return new Response(null, 404);
+        }
+
+        $menu = $this->findMyMenu($restaurant, $menuName);
+
+        $filterMenu = new FilterMenuDTO();
+
+        $user = $this->getUser();
+        if ($user !== null) {
+            $userRepo = $this->getDoctrine()->getRepository(User::class);
+            $userEntity = $userRepo->findOneBy(['email' => $user->getUserIdentifier()]);
+            $filterMenu->diet = array_map(function ($d) {
+                return $d->getName();
+            }, $userEntity->getDiets()->toArray());
+            $filterMenu->allergy = array_map(function ($a) {
+                return $a->getName();
+            }, $userEntity->getAllergies()->toArray());
+        }
+
+        $form = $this->createForm(PropertySearchType::class, $filterMenu);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $filterMenu = $form->getData();
+        }
+
+        $this->filterMenuItem->filter($menu, $filterMenu);
+
+        return new JsonResponse($menu);
+    }
+
     private function findMyMenu(Restaurant $restaurant, string $menuName) : ?MenuOutput {
         $menuRepo = $this->getDoctrine()->getRepository(Menu::class);
         $allergyRepo = $this->getDoctrine()->getRepository(Allergy::class);
         $dietRepo = $this->getDoctrine()->getRepository(Diet::class);
+
+        $menuItemRepo = $this->getDoctrine()->getRepository(MenuItem::class);
 
         /**
          * @var Menu|null $menu
@@ -155,15 +204,15 @@ class RoutingController extends AbstractController
         }
 
         $menuItemIds = [];
-        foreach($menu->getMenuHasMenuSections() as $hasMenuSection) {
-            foreach($hasMenuSection->getMenuSection()->getHasMenuItem() as $menuItem) {
-                $menuItemIds[] = $menuItem->getId();
+        foreach($menu->getMenuMenuSections() as $hasMenuSection) {
+            foreach($hasMenuSection->getMenuSection()->getMenuSectionMenuItems() as $menuSectionMenuItems) {
+                $menuItemIds[] = $menuSectionMenuItems->getMenuItem()->getId();
             }
         }
         $allergies = [];
         $diets = [];
         if ($menuItemIds !== []) {
-            $allergies = $allergyRepo->findAllAllergyOfIds($menuItemIds);
+            $allergies = $menuItemRepo->findAllAllergyOfIds($menuItemIds);
             $diets = $dietRepo->findAllDietOfIds($menuItemIds);
         }
 

@@ -33,14 +33,14 @@ class Restaurant
     private ?string $description;
 
     /**
-     * @ORM\Column(type="string", length=3)
+     * @ORM\Column(type="string", length=3, options={"default"="EUR"})
      */
-    private ?string $currency;
+    private ?string $currency = "EUR";
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default"=true})
      */
-    private ?bool $activate;
+    private ?bool $activate = true;
 
     /**
      * @ORM\Column(type="ascii_string")
@@ -67,6 +67,9 @@ class Restaurant
     public function __construct()
     {
         $this->menus = new ArrayCollection();
+        $this->urlSlug = null;
+        $this->currency = "EUR";
+        $this->activate = true;
     }
 
     public function getId(): ?int
@@ -193,5 +196,10 @@ class Restaurant
         if (!$this->urlSlug || '-' === $this->urlSlug) {
             $this->setUrlSlug((string)$slugger->slug($this->name)->lower());
         }
+    }
+
+    public function __toString()
+    {
+        return "{$this->name}";
     }
 }

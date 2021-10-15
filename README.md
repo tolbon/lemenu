@@ -7,8 +7,8 @@ Vous pourrez aussi les imprimer à volonté...
 Pouvoir filtrer pour les allergenes, les regimes alimentaire et les envies precises.
 
 ## Inspirations
-* [https://menuonline.fr/](https://menuonline.fr/ "Concurrent Direct") Concurrent Direct
-* [foodcheri](https://www.foodcheri.com/ "Presentation pas mal pour les allergenes et les preferences alimentaire") Presentation pas mal pour les allergenes et les preferences alimentaire
+* [https://menuonline.fr/](https://menuonline.fr/) Concurrent Direct
+* [foodcheri](https://www.foodcheri.com/) Presentation pas mal pour les allergenes et les preferences alimentaire
 * [kitchendiet](https://www.kitchendiet.fr/programme-minceur/plats-dietetiques-commander-a-la-carte.html) Grosse icones sympa
 * [seazon](https://seazon.fr/menu) 
 

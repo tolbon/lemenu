@@ -1,7 +1,7 @@
 FROM php:8.0-apache
 
-RUN apt update && apt install -y zip unzip libzip-dev zlib1g-dev libsodium-dev libonig-dev
-RUN docker-php-ext-install -j$(nproc) mbstring bcmath zip sodium json opcache mysqli pdo pdo_mysql
+RUN apt update && apt install -y zip unzip libzip-dev zlib1g-dev libonig-dev libicu-dev
+RUN docker-php-ext-install -j$(nproc) bcmath zip opcache pdo_mysql intl
 
 ADD sites-available /etc/apache2/sites-available
 

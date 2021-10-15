@@ -117,7 +117,7 @@ class MenuSectionMenuItem
     public function validateRestaurant(): void 
     {
         if ($this->menuSection->getRestaurant()->getId() !== $this->menuItem->getRestaurant()->getId()) {
-            throw new InvalidArgumentException("menuSection and menuItem have different restaurant Id ??? Hack ?");
+            throw new InvalidArgumentException("menuSection and menuItem have different restaurant Id ??? Hack ? {$this->menuSection->getName()} - {$this->menuItem->getName()}");
         }
     }
 }

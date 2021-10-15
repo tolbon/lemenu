@@ -68,6 +68,8 @@ class Menu
     public function __construct()
     {
         $this->menuMenuSections = new ArrayCollection();
+        $this->urlSlug = null;
+        $this->activate = true;
     }
 
     public function getId(): ?int
@@ -182,5 +184,10 @@ class Menu
         if (!$this->urlSlug || '-' === $this->urlSlug) {
             $this->setUrlSlug((string)$slugger->slug($this->name)->lower());
         }
+    }
+
+    public function __toString()
+    {
+        return "{$this->name}";
     }
 }

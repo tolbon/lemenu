@@ -300,4 +300,9 @@ class MenuSection
     {
         $this->insertDateAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
     }
+
+    public function __toString()
+    {
+        return "{$this->name}";
+    }
 }

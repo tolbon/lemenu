@@ -13,68 +13,44 @@ use Doctrine\Persistence\ObjectManager;
 class RestaurantFixtures extends Fixture implements DependentFixtureInterface
 {
 
+    public const ROSAPARKS = 'rosaparks';
+    public const BOSPHORE = 'bosphore';
+    public const PIZZA = 'pizza_restaurant';
+
     public function load(ObjectManager $manager)
     {
         // $product = new Product();
         // $manager->persist($product);
 
-        $r1 = new Restaurant();
-        $r1->setName('InternalRestaurant Not Visible')
+        $pizzeria = new Restaurant();
+        $pizzeria->setName('InternalRestaurant Not Visible')
+            ->setDescription('A Pizzeria Test')
             ->setCurrency('EUR')
             ->setActivate(true)
             ->setUrlSlug('menuinternals');
 
+        $this->addReference(self::PIZZA, $pizzeria);
 
-        $r2 = new Restaurant();
-        $r2->setName('Rosaparks')
+        $rosaparks_restaurant = new Restaurant();
+        $rosaparks_restaurant->setName('Rosaparks')
             ->setDescription('Rosaparks 3')
             ->setCurrency('EUR')
             ->setActivate(true)
             ->setUrlSlug('rosaparks')
             ->setAddress('10 Rue Alexandre du Sommerard, 10000 Troyes')
-            ->setPhone('+33 3 25 79 57 79');
+            ->setPhone('+33 3 25 79 76 79');
+        $this->addReference(self::ROSAPARKS, $rosaparks_restaurant);
 
-        $m = new Menu();
-        $m->setName('Menu')
-            ->setRestaurant($r2)
-            ->setDescription('Menu du 22/07/2021')
-            ->setActivate(true)
-            ->setUrlSlug('menu')
-            ->setInsertDateAt(new \DateTimeImmutable('2021-07-25 21:34:49'));
-
-        $r3 = new Restaurant();
-        $r3->setName('Le BÔ$phɵǒrœ ȘỚỸßØå')
+        $bosphore_restaurant = new Restaurant();
+        $bosphore_restaurant->setName('Le BÔ$phɵǒrœ ȘỚỸßØå')
             ->setDescription('Kébab Frêre Ô$phɵǒrœ ȘỚỸßØå')
             ->setCurrency('EUR')
             ->setActivate(true);
+        $this->addReference(self::BOSPHORE, $bosphore_restaurant);
 
-        $m1 = new Menu();
-        $m->setName('Menu Ô$phɵǒrœ ȘỚỸßØå')
-            ->setRestaurant($r3)
-            ->setDescription('Ô$phɵǒrœ ȘỚỸßØå')
-            ->setActivate(true)
-            ->setInsertDateAt(new \DateTimeImmutable('2021-07-25 21:34:49'));
-
-        $m2 = new Menu();
-        $m->setName('Menu2')
-            ->setRestaurant($r3)
-            ->setDescription('Desactivate Menu')
-            ->setActivate(false)
-            ->setUrlSlug('menu2')
-            ->setInsertDateAt(new \DateTimeImmutable('2021-07-25 21:34:49'));
-
-        $manager->persist($r1);
-        $manager->persist($r2);
-        $manager->persist($r3);
-
-        $manager->persist($m);
-        $manager->persist($m2);
-        $manager->persist($m2);
-
-
-        $manager->persist($m);
-        $manager->persist($m2);
-        $manager->persist($m2);
+        $manager->persist($pizzeria);
+        $manager->persist($rosaparks_restaurant);
+        $manager->persist($bosphore_restaurant);
 
         $manager->flush();
     }
