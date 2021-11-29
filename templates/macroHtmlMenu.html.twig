@@ -1,19 +1,19 @@
 {% macro section(menuSection, currency, hNumber) %}
     {% import "components/priceMacro.html.twig" as macroPrice %}
     {# menuSection \App\DTO\Output\MenuSectionOutput[] #}
-    <ul>
+    <ul style="list-style: none;">
         {% for section in menuSection %}
-            <li>
-                <h{{ hNumber }} id="{{ section.name }}">{{ section.name }}</h{{ hNumber }}>
+            <li style="margin: 0 0 2em 0;">
+                <h{{ hNumber }} id="{{ section.name }}" style="text-transform: capitalize">{{ section.name }}</h{{ hNumber }}>
                 {% include 'components/titlePriceMacro.html.twig' %}
                 {{ macroPrice.displayMenuPrice(section.displayCurrencySymbolOnTitle, currency, section.price1, section.price2, section.price3) }}
-                <p>{{ section.description }}</p>
+                <p style="color: rgb(62, 62, 62)">{{ section.description }}</p>
                 {% if section.displayChildrenSectionAfterMenuItems == false %}
                     {{ _self.section(section.menuSections, currency, (hNumber + 1)) }}
                 {% endif %}
-                <ul>
+                <ul style="list-style: none;">
                     {% for menuItem in section.hasMenuItem %}
-                        <li>
+                        <li style="margin: 0 0 2em 0;">
                             {% include 'components/menuItem.html.twig' %}
                         </li>
                     {% endfor %}

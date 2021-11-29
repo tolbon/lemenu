@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DTO\FilterMenuDTO;
+use App\DTO\MenuDTO;
 use App\DTO\Output\MenuOutput;
 use App\Entity\Allergy;
 use App\Entity\Diet;
@@ -87,6 +88,29 @@ class RoutingController extends AbstractController
         return new Response($content);
     }
 
+    /**
+     * @Route("{restaurantName}/menus/{menuName}.json", name="menuJson")
+     * @param Environment $twig
+     * @return Response
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function menuJsonPage(string $restaurantName, string $menuName, Environment $twig, Request $request) {
+        $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
+        $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
+
+        if ($restaurant === null) {
+            //404
+            return new Response(null, 404);
+        }
+
+        $menu = $this->findMyMenu($restaurant, $menuName);
+
+        $menuDTO = new MenuDTO($menu);
+
+        return new JsonResponse($menu);
+    }
 
     /**
      * @Route("{slugRestaurantName}/menus/{slugMenuName}", name="menu")
@@ -141,51 +165,7 @@ class RoutingController extends AbstractController
         return new Response($content);
     }
 
-    /**
-     * @Route("{restaurantName}/menus/{menuName}.json", name="menuJson")
-     * @param Environment $twig
-     * @return Response
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    public function menuJsonPage(string $restaurantName, string $menuName, Environment $twig, Request $request) {
-        $restaurantRepo = $this->getDoctrine()->getRepository(Restaurant::class);
-        $restaurant = $restaurantRepo->findOneBy(['urlSlug' => $restaurantName]);
 
-        if ($restaurant === null) {
-            //404
-            return new Response(null, 404);
-        }
-
-        $menu = $this->findMyMenu($restaurant, $menuName);
-
-        $filterMenu = new FilterMenuDTO();
-
-        $user = $this->getUser();
-        if ($user !== null) {
-            $userRepo = $this->getDoctrine()->getRepository(User::class);
-            $userEntity = $userRepo->findOneBy(['email' => $user->getUserIdentifier()]);
-            $filterMenu->diet = array_map(function ($d) {
-                return $d->getName();
-            }, $userEntity->getDiets()->toArray());
-            $filterMenu->allergy = array_map(function ($a) {
-                return $a->getName();
-            }, $userEntity->getAllergies()->toArray());
-        }
-
-        $form = $this->createForm(PropertySearchType::class, $filterMenu);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $filterMenu = $form->getData();
-        }
-
-        $this->filterMenuItem->filter($menu, $filterMenu);
-
-        return new JsonResponse($menu);
-    }
 
     private function findMyMenu(Restaurant $restaurant, string $menuName) : ?MenuOutput {
         $menuRepo = $this->getDoctrine()->getRepository(Menu::class);

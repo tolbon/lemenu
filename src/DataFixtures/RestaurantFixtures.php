@@ -16,6 +16,7 @@ class RestaurantFixtures extends Fixture implements DependentFixtureInterface
     public const ROSAPARKS = 'rosaparks';
     public const BOSPHORE = 'bosphore';
     public const PIZZA = 'pizza_restaurant';
+    public const TOUR2PIZZ = 'tour_de_pizz';
 
     public function load(ObjectManager $manager)
     {
@@ -48,9 +49,17 @@ class RestaurantFixtures extends Fixture implements DependentFixtureInterface
             ->setActivate(true);
         $this->addReference(self::BOSPHORE, $bosphore_restaurant);
 
+        $pizzeria_restaurant = new Restaurant();
+        $pizzeria_restaurant->setName('Tour de pizz\' 🍕🤌🏽')
+            ->setDescription('Restaurant Franco-italien')
+            ->setCurrency('CHF')
+            ->setActivate(true);
+        $this->addReference(self::TOUR2PIZZ, $pizzeria_restaurant);
+
         $manager->persist($pizzeria);
         $manager->persist($rosaparks_restaurant);
         $manager->persist($bosphore_restaurant);
+        $manager->persist($pizzeria_restaurant);
 
         $manager->flush();
     }

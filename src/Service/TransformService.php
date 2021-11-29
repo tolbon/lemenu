@@ -22,7 +22,7 @@ class TransformService
 
         $menuHasMenuSections = $menu->getMenuMenuSections()->toArray();
 
-        $menuOut->menuSections = $this->transformMenuSectionOrdered($menuHasMenuSections, 0, $allergies, $diets);
+        $menuOut->menuSections = $this->transformMenuSectionOrdered($menuHasMenuSections, 11, $allergies, $diets);
 
         return $menuOut;
     }
@@ -64,20 +64,21 @@ class TransformService
             $menuSectionOutput->displayCurrencySymbolOnChildren = $menuSec->getDisplayCurrencyOnChildren();
             $menuSectionOutput->displayChildrenSectionAfterMenuItems = $menuSec->getDisplayChildrenSectionAfterMenuItems();
 
-            foreach ($menuSec->getHasMenuItem() as $menuItemEntity) {
-                $menuItemOut = new MenuItemOutput();
-                $menuItemOut->id = $menuItemEntity->getId();
-                $menuItemOut->name = $menuItemEntity->getName();
-                $menuItemOut->description = $menuItemEntity->getDescription();
-                $menuItemOut->price1 = $menuItemEntity->getPrice1();
-                $menuItemOut->price2 = $menuItemEntity->getPrice2();
-                $menuItemOut->price3 = $menuItemEntity->getPrice3();
+            foreach ($menuSec->getMenuSectionMenuItems() as $menuSectionMenuItem) {
+                    $menuItemEntity = $menuSectionMenuItem->getMenuItem();
+                    $menuItemOut = new MenuItemOutput();
+                    $menuItemOut->id = $menuItemEntity->getId();
+                    $menuItemOut->name = $menuItemEntity->getName();
+                    $menuItemOut->description = $menuItemEntity->getDescription();
+                    $menuItemOut->price1 = $menuItemEntity->getPrice1();
+                    $menuItemOut->price2 = $menuItemEntity->getPrice2();
+                    $menuItemOut->price3 = $menuItemEntity->getPrice3();
 
-                $menuItemOut->allergens = $allergies[$menuItemEntity->getId()] ?? [];
-                $menuItemOut->diets = $diets[$menuItemEntity->getId()] ?? [];
-                $menuItemOut->labels = [];
+                    $menuItemOut->allergens = $allergies[$menuItemEntity->getId()] ?? [];
+                    $menuItemOut->diets = $diets[$menuItemEntity->getId()] ?? [];
+                    $menuItemOut->labels = [];
 
-                $menuSectionOutput->hasMenuItem[] = $menuItemOut;
+                    $menuSectionOutput->hasMenuItem[] = $menuItemOut;
             }
 
             $menuSectionOutput->menuSections = $this->transformMenuSectionOrdered($menuHasMenuSections, $menuSec->getId());
